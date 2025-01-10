@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace BeestjeOpJeFeestje.Models {
+﻿namespace BeestjeOpJeFeestje.Models {
     public class RegisterForm {
         public string Name { get; set; }
         public string Email { get; set; }
