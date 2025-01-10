@@ -1,0 +1,21 @@
+﻿@model List<Geheim>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Inhoud</th>
+            <th>Security Level</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var geheim in Model)
+        {
+            <tr>
+                <td>@geheim.Id</td>
+                <td>@geheim.Inhoud</td>
+                <td>@geheim.SecurityLevel</td>
+            </tr>
+        }
+    </tbody>
+</table>
