@@ -13,14 +13,5 @@ namespace BeestjeOpJeFeestje.Controllers {
         public IActionResult Index() {
             return View();
         }
-
-        [Authorize]
-        public IActionResult Geheimen() {
-            if (User.IsInRole("SecretKeeper")) {
-                return View(_context.Geheimen.ToList());
-            } else {
-                return View(_context.Geheimen.Where(g => g.SecurityLevel < 3).ToList());
-            }
-        }
     }
 }
