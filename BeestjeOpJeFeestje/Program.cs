@@ -33,9 +33,10 @@ namespace BeestjeOpJeFeestje {
 
             app.UseAuthorization();
 
+            // Change the default route to "Auth/Login"
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Auth}/{action=Login}/{id?}");
 
             app.Run();
         }

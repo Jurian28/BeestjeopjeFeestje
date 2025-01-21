@@ -1,4 +1,5 @@
 ﻿using BeestjeOpJeFeestje.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,23 +14,23 @@ namespace Bumbo.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "boerderij")]
         public IActionResult Register() {
             return View();
         }
 
+        [HttpPost]
+        [Authorize(Roles = "boerderij")]
         public async Task<IActionResult> Register(RegisterForm registerForm) {
             AppUser user = new AppUser() {
                 UserName = registerForm.Name,
                 Email = registerForm.Email
             };
 
-            //Wat doet de await?
             var result = await _userManager.CreateAsync(user, registerForm.Password);
 
-            //Als het gelukt is om de gebruiker aan te maken, kunnen we hem meteen inloggen.
             if (result.Succeeded) {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return Redirect("/home");
+                return RedirectToAction("Index", "Boerderij");
             }
             return View();
         }
@@ -43,11 +44,18 @@ namespace Bumbo.Controllers {
             var result = await _signInManager.PasswordSignInAsync(loginForm.Username,
                    loginForm.Password, true, false);
 
-            if (result.Succeeded) {
-                return Redirect("/Home");
-            } else {
+            if (!result.Succeeded)
                 return View();
-            }
+
+            var user = await _userManager.FindByNameAsync(loginForm.Username);
+
+            if (await _userManager.IsInRoleAsync(user, "Boerderij"))
+                return RedirectToAction("index", "Boerderij");
+
+            if (await _userManager.IsInRoleAsync(user, "Klant"))
+                return RedirectToAction("index", "Klant");
+
+            return NotFound();
         }
 
         [HttpGet]
