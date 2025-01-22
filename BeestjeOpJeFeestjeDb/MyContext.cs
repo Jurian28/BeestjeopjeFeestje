@@ -46,7 +46,8 @@ namespace BeestjeOpJeFeestje.Models {
                 entity.Property(e => e.Type)
                 .HasColumnName("type");
                 entity.Property(e => e.Price)
-                .HasColumnName("price");
+                .HasColumnName("price")
+                .HasPrecision(16, 2); 
                 entity.Property(e => e.ImageUrl)
                 .HasColumnName("imageUrl");
                 entity.HasOne<Animal>().WithMany().HasForeignKey("booking_id");
@@ -78,15 +79,15 @@ namespace BeestjeOpJeFeestje.Models {
 
             var boerderij = new AppUser {
                 Id = "1",
-                UserName = "Koray Yilmaz",
-                NormalizedUserName = "KORAY YILMAZ",
+                UserName = "jurian",
+                NormalizedUserName = "JURIAN",
                 Email = "employee@example.com",
                 NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
             };
             var klant = new AppUser {
                 Id = "2",
-                UserName = "Koray Yilmazs",
-                NormalizedUserName = "KORAY YILMAZS",
+                UserName = "ethan",
+                NormalizedUserName = "ETHAN",
                 Email = "employee@examples.com",
                 NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
             };
