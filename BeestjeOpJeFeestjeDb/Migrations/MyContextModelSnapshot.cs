@@ -17,10 +17,25 @@ namespace BeestjeOpJeFeestjeDb.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AnimalBooking", b =>
+                {
+                    b.Property<int>("AnimalsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BookingsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AnimalsId", "BookingsId");
+
+                    b.HasIndex("BookingsId");
+
+                    b.ToTable("AnimalBooking");
+                });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Models.AppUser", b =>
                 {
@@ -85,68 +100,102 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8bfe2862-eb64-42f8-93d5-a47bc6227749",
+                            Email = "employee@example.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
+                            NormalizedUserName = "KORAY YILMAZ",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH3KLjfVnUyqXuDkERmivfLU6v631jyFSRFdlushRuj+JESXT3sIGVOh0HjiFGEBag==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e873fffa-39fd-4312-b63b-57583b8c9e3a",
+                            TwoFactorEnabled = false,
+                            UserName = "Koray Yilmaz"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bb9548bd-699d-4e11-a65a-14f0ae4cb356",
+                            Email = "employee@examples.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
+                            NormalizedUserName = "KORAY YILMAZS",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGZHK+/LCbmA6vKNxfqg4aGIvJKgBzSYApxzWoQkFckXppQxn2+5gh2062GHnXx/Ng==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7ad5d723-97f4-4061-bd60-d9e156d7a062",
+                            TwoFactorEnabled = false,
+                            UserName = "Koray Yilmazs"
+                        });
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("animal_id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("imageUrl");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("price");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("type");
+
+                    b.Property<int?>("booking_id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Animals");
+                    b.HasIndex("booking_id");
+
+                    b.ToTable("Animal", (string)null);
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("booking_id");
 
                     b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("booking_date");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("event_date");
+
+                    b.Property<string>("animal_id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("animal_id");
 
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("BookingAnimal", b =>
-                {
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AnimalId", "BookingId");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("BookingAnimal");
+                    b.ToTable("Booking", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -174,6 +223,20 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "boerderij",
+                            NormalizedName = "BOERDERIJ"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "klant",
+                            NormalizedName = "KLANT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -261,6 +324,18 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "2",
+                            RoleId = "2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -282,30 +357,41 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
-                {
-                    b.HasOne("BeestjeOpJeFeestje.Models.AppUser", "AppUser")
-                        .WithMany("Bookings")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("BookingAnimal", b =>
+            modelBuilder.Entity("AnimalBooking", b =>
                 {
                     b.HasOne("BeestjeOpJeFeestjeDb.Models.Animal", null)
                         .WithMany()
-                        .HasForeignKey("AnimalId")
+                        .HasForeignKey("AnimalsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BeestjeOpJeFeestjeDb.Models.Booking", null)
                         .WithMany()
-                        .HasForeignKey("BookingId")
+                        .HasForeignKey("BookingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", b =>
+                {
+                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Animal", null)
+                        .WithMany()
+                        .HasForeignKey("booking_id");
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
+                {
+                    b.HasOne("BeestjeOpJeFeestje.Models.AppUser", "AppUser")
+                        .WithMany("Bookings")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Booking", null)
+                        .WithMany()
+                        .HasForeignKey("animal_id");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
