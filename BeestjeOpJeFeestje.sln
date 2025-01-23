@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35209.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje", "BeestjeOpJeFeestje\BeestjeOpJeFeestje.csproj", "{1ED4E427-047F-49A2-8B71-C24D0FAC0A46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeestjeOpJeFeestje", "BeestjeOpJeFeestje\BeestjeOpJeFeestje.csproj", "{1ED4E427-047F-49A2-8B71-C24D0FAC0A46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestjeDb", "BeestjeOpJeFeestjeDb\BeestjeOpJeFeestjeDb.csproj", "{7C9D83B4-CFDC-4DEF-95D4-CA55545E949B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeestjeOpJeFeestjeDb", "BeestjeOpJeFeestjeDb\BeestjeOpJeFeestjeDb.csproj", "{7C9D83B4-CFDC-4DEF-95D4-CA55545E949B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestjeBusinessLayer", "BeestjeOpJeFeestjeBusinessLayer\BeestjeOpJeFeestjeBusinessLayer.csproj", "{F4FE6032-0B97-44DE-9597-26B754614296}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7C9D83B4-CFDC-4DEF-95D4-CA55545E949B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C9D83B4-CFDC-4DEF-95D4-CA55545E949B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C9D83B4-CFDC-4DEF-95D4-CA55545E949B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4FE6032-0B97-44DE-9597-26B754614296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4FE6032-0B97-44DE-9597-26B754614296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4FE6032-0B97-44DE-9597-26B754614296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4FE6032-0B97-44DE-9597-26B754614296}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,21 @@
-﻿<h1>Boerderij</h1>
+﻿@using BeestjeOpJeFeestjeDb.Models
+@model IEnumerable<Animal>
+
+<h1>Boerderij</h1>
+<div>
+@foreach(Animal animal in Model) {
+    <div>
+        <div>@animal.Name</div>
+        <div>@animal.Type</div>
+        <div>@animal.Price</div>
+        <div>@animal.ImageUrl</div>
+        <a href="@Url.Action("Edit", "Boerderij", new { id = animal.Id})">Edit</a>
+        <a href="@Url.Action("Delete", "Boerderij", new { id = animal.Id})">Delete</a>
+    </div>
+}
+
+<a href="@Url.Action("Create", "Boerderij")">Create</a>
+</div>
 
 <p>
     <a href="/Auth/Register">register</a>
