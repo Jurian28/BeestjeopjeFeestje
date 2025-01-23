@@ -16,6 +16,8 @@ namespace BeestjeOpJeFeestje {
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyContext>();
 
+            builder.Services.AddDistributedMemoryCache(); // session
+            builder.Services.AddSession(); // session
 
             var app = builder.Build();
 
@@ -26,6 +28,8 @@ namespace BeestjeOpJeFeestje {
                 app.UseHsts();
             }
 
+            app.UseSession(); // session
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -33,10 +37,9 @@ namespace BeestjeOpJeFeestje {
 
             app.UseAuthorization();
 
-            // Change the default route to "Auth/Login"
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Auth}/{action=Login}/{id?}");
+                pattern: "{controller=Klant}/{action=Index}/{id?}");
 
             app.Run();
         }

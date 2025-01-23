@@ -41,13 +41,13 @@ namespace Bumbo.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginForm loginForm) {
-            var result = await _signInManager.PasswordSignInAsync(loginForm.Username,
+            var user = await _userManager.FindByEmailAsync(loginForm.Email);
+            var result = await _signInManager.PasswordSignInAsync(user,
                    loginForm.Password, true, false);
 
             if (!result.Succeeded)
                 return View();
 
-            var user = await _userManager.FindByNameAsync(loginForm.Username);
 
             if (await _userManager.IsInRoleAsync(user, "Boerderij"))
                 return RedirectToAction("index", "Boerderij");

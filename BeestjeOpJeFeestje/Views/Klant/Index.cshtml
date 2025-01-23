@@ -1,1 +1,9 @@
-﻿<h1>Klant</h1>
+﻿@model DateOnly
+
+<div>
+    <a href="@Url.Action("DecreaseDate", new { date = Model })">&#8592;</a>
+    <span>@Model.DayOfWeek @Model</span>
+    <a href="@Url.Action("IncreaseDate", new { date = Model })">&#8594;</a>
+</div>
+
+<a href="@Url.Action("ChooseAnimals", new { date = Model })">Continue</a>
