@@ -14,6 +14,7 @@ namespace BeestjeOpJeFeestje.Controllers {
             _bookingService = bookingService;
         }
 
+        // step 1
         public IActionResult Index(DateOnly? date) {
             if (date == null) {
                 date = DateOnly.FromDateTime(DateTime.Now);
@@ -59,22 +60,35 @@ namespace BeestjeOpJeFeestje.Controllers {
             return RedirectToAction("ChooseAnimals");
         }
 
+        public IActionResult ConfirmSelectedAnimals() {
+            if (!_bookingService.ValidateAnimals()) {
+                return RedirectToAction("ChooseAnimals"); // TODO: iets met ModelErrors erbij doen
+            }
+            _bookingService.CalculateDiscount(); // misschien dit al eerder doen bij het selecteren van dieren ???? hier kan ook 
+
+            return RedirectToAction("Authenticate");
+
+
+
+
+        }
+
         // step 3
-        public async Task<IActionResult> Authenticate() {
-            //AppUser? user = await _userManager.GetUserAsync(User);
-            //if (user == null) {
-            //    return View();
-            //}
+        public IActionResult Authenticate() {
+            if (!User.Identity.IsAuthenticated) {
+                return View();
+            }
+            // Redirect to ConfirmBooking if the user is authenticated
             return RedirectToAction("ConfirmBooking");
         }
 
 
-        // step 3
+        // step 4
         public IActionResult ConfirmBooking() {
             Booking booking = new Booking() {
 
             };
-            return View();
+            return View(booking);
         }
     }
 }

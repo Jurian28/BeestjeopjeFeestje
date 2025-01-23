@@ -66,5 +66,15 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
             return new List<int>();
         }
+
+
+        public bool ValidateAnimals() {
+            throw new NotImplementedException();
+        }
+
+        public void CalculateDiscount() { 
+            throw new NotImplementedException();
+            GetSelectedAnimalIds(); // dit zou je kunnen gebruiken
+        }
     }
 }

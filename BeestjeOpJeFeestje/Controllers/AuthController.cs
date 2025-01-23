@@ -63,7 +63,13 @@ namespace Bumbo.Controllers {
         [HttpGet]
         public async Task<IActionResult> Logout() {
             await _signInManager.SignOutAsync();
-            return Redirect("/home");
+
+            string returnUrl = Request.Headers["Referer"].ToString(); // go back to where the user came from
+            if (!string.IsNullOrEmpty(returnUrl)) {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Klant");
         }
     }
 }

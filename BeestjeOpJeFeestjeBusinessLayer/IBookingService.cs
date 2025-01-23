@@ -10,5 +10,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         void AddOrRemoveAnimalFromBooking(int animalId);
         List<int> GetSelectedAnimalIds();
+        bool ValidateAnimals();
+        void CalculateDiscount();
     }
 }

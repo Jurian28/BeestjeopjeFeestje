@@ -1,8 +1,13 @@
-﻿@model LoginForm
+﻿@model RegisterForm
 
-<h2>Login</h2>
+<h2>Register</h2>
 
 <form method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
         <input asp-for="Email" class="form-control" />
@@ -14,7 +19,13 @@
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Login</button>
+        <label asp-for="PasswordRepeat" class="control-label"></label>
+        <input asp-for="PasswordRepeat" class="form-control" type="password" />
+        <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Register</button>
     </div>
 </form>
+
 
