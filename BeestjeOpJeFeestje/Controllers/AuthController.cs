@@ -24,7 +24,8 @@ namespace Bumbo.Controllers {
         public async Task<IActionResult> Register(RegisterForm registerForm) {
             AppUser user = new AppUser() {
                 UserName = registerForm.Name,
-                Email = registerForm.Email
+                Email = registerForm.Email,
+                PhoneNumber = registerForm.PhoneNumber
             };
 
             var result = await _userManager.CreateAsync(user, registerForm.Password);
@@ -49,11 +50,11 @@ namespace Bumbo.Controllers {
 
             var user = await _userManager.FindByNameAsync(loginForm.Username);
 
-            if (await _userManager.IsInRoleAsync(user, "Boerderij"))
-                return RedirectToAction("index", "Boerderij");
+            if (await _userManager.IsInRoleAsync(user, "boerderij"))
+                return RedirectToAction("Index", "Boerderij");
 
             if (await _userManager.IsInRoleAsync(user, "Klant"))
-                return RedirectToAction("index", "Klant");
+                return RedirectToAction("Index", "Klant");
 
             return NotFound();
         }

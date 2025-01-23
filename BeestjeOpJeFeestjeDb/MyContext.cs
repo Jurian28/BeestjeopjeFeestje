@@ -54,6 +54,12 @@ namespace BeestjeOpJeFeestje.Models {
             });
 
             modelBuilder.Entity<AppUser>(entity => {
+                entity.HasKey(e => e.Id);
+                entity.ToTable("AppUser");
+                entity.Property(e => e.Id) 
+                .HasColumnName("appuser_id").IsRequired();
+                entity.Property(e => e.Card)
+                .HasColumnName("card");
                 entity.HasMany(e => e.Bookings).WithOne(b => b.AppUser).HasForeignKey(e => e.Id);
             });
 
@@ -66,8 +72,6 @@ namespace BeestjeOpJeFeestje.Models {
                 .HasColumnName("booking_date");
                 entity.Property(e => e.EventDate)
                 .HasColumnName("event_date");
-                //entity.Property(e => e.AppUser)
-                //.HasColumnName("app_user");
                 entity.HasOne(e => e.AppUser).WithMany(a => a.Bookings).HasForeignKey(e => e.Id);
                 entity.HasOne<Booking>().WithMany().HasForeignKey("animal_id");
             });
