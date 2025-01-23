@@ -4,17 +4,19 @@
 <h1>Boerderij</h1>
 <div>
 @foreach(Animal animal in Model) {
-    <div>
-        <div>@animal.Name</div>
-        <div>@animal.Type</div>
-        <div>@animal.Price</div>
-        <div>@animal.ImageUrl</div>
-        <a href="@Url.Action("Edit", "Boerderij", new { id = animal.Id})">Edit</a>
-        <a href="@Url.Action("Delete", "Boerderij", new { id = animal.Id})">Delete</a>
+    <div class="card" style="width: 18rem">
+        <div class="card-body">
+            <img class="card-img-top" src="@animal.ImageUrl">
+            <div>@animal.Name</div>
+            <div>@animal.Type</div>
+            <div>@animal.Price</div>
+            <a class="btn btn-primary" href="@Url.Action("Edit", "Boerderij", new { id = animal.Id})">Edit</a>
+            <a class="btn btn-primary" href="@Url.Action("Delete", "Boerderij", new { id = animal.Id})">Delete</a>
+        </div>
     </div>
 }
 
-<a href="@Url.Action("Create", "Boerderij")">Create</a>
+<a class="btn btn-primary" href="@Url.Action("Create", "Boerderij")">Create</a>
 </div>
 
 <p>
