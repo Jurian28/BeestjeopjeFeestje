@@ -1,4 +1,27 @@
 ﻿@using BeestjeOpJeFeestjeDb.Models
-@model List<Animal>
+@model ChooseAnimalsViewModel
 
-Choose animals
+<h1>Choose Animals</h1>
+
+<div class="row">
+    @foreach (Animal animal in Model.AvailableAnimals)
+    {
+        var cardClass = Model.SelectedAnimals.Contains(animal.Id) ? "card border-primary border-3" : "card border-dark border-2";
+
+        <div class="col-12 col-md-4 mb-4">
+            <a href="@Url.Action("SelectAnimal", new { animalId = animal.Id})" class="@cardClass" style="width: 18rem; text-decoration: none;">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <img class="card-img-top" src="@animal.ImageUrl" alt="@animal.Name" style="max-height: 200px; object-fit: cover;">
+                    <div class="mt-3 text-center">
+                        <h5 class="card-title">@animal.Name</h5>
+                        <p class="card-text">@animal.Price</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+<div class="mt-4">
+    <p class="text-center">@Model.Date</p>
+</div>

@@ -1,4 +1,5 @@
 using BeestjeOpJeFeestje.Models;
+using BeestjeOpJeFeestjeBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ namespace BeestjeOpJeFeestje {
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyContext>();
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IBookingService, BookingService>();
 
             builder.Services.AddDistributedMemoryCache(); // session
             builder.Services.AddSession(); // session
@@ -36,7 +40,6 @@ namespace BeestjeOpJeFeestje {
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Klant}/{action=Index}/{id?}");

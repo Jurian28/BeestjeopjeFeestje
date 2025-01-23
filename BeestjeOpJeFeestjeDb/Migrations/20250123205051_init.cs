@@ -21,18 +21,12 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    booking_id = table.Column<int>(type: "int", nullable: true)
+                    price = table.Column<decimal>(type: "decimal(16,2)", precision: 16, scale: 2, nullable: false),
+                    imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Animal", x => x.animal_id);
-                    table.ForeignKey(
-                        name: "FK_Animal_Animal_booking_id",
-                        column: x => x.booking_id,
-                        principalTable: "Animal",
-                        principalColumn: "animal_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -184,46 +178,42 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 name: "Booking",
                 columns: table => new
                 {
-                    booking_id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    booking_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     booking_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     event_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    animal_id = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Booking", x => x.booking_id);
                     table.ForeignKey(
-                        name: "FK_Booking_AspNetUsers_booking_id",
-                        column: x => x.booking_id,
+                        name: "FK_Booking_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Booking_Booking_animal_id",
-                        column: x => x.animal_id,
-                        principalTable: "Booking",
-                        principalColumn: "booking_id");
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnimalBooking",
+                name: "BookingAnimal",
                 columns: table => new
                 {
-                    AnimalsId = table.Column<int>(type: "int", nullable: false),
-                    BookingsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    AnimalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnimalBooking", x => new { x.AnimalsId, x.BookingsId });
+                    table.PrimaryKey("PK_BookingAnimal", x => new { x.BookingId, x.AnimalId });
                     table.ForeignKey(
-                        name: "FK_AnimalBooking_Animal_AnimalsId",
-                        column: x => x.AnimalsId,
+                        name: "FK_BookingAnimal_Animal_AnimalId",
+                        column: x => x.AnimalId,
                         principalTable: "Animal",
                         principalColumn: "animal_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AnimalBooking_Booking_BookingsId",
-                        column: x => x.BookingsId,
+                        name: "FK_BookingAnimal_Booking_BookingId",
+                        column: x => x.BookingId,
                         principalTable: "Booking",
                         principalColumn: "booking_id",
                         onDelete: ReferentialAction.Cascade);
@@ -243,8 +233,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "8bfe2862-eb64-42f8-93d5-a47bc6227749", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "KORAY YILMAZ", "AQAAAAIAAYagAAAAEH3KLjfVnUyqXuDkERmivfLU6v631jyFSRFdlushRuj+JESXT3sIGVOh0HjiFGEBag==", null, false, "e873fffa-39fd-4312-b63b-57583b8c9e3a", false, "Koray Yilmaz" },
-                    { "2", 0, "bb9548bd-699d-4e11-a65a-14f0ae4cb356", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "KORAY YILMAZS", "AQAAAAIAAYagAAAAEGZHK+/LCbmA6vKNxfqg4aGIvJKgBzSYApxzWoQkFckXppQxn2+5gh2062GHnXx/Ng==", null, false, "7ad5d723-97f4-4061-bd60-d9e156d7a062", false, "Koray Yilmazs" }
+                    { "1", 0, "e403d67b-4f44-411e-8ec2-b809f850fffb", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAEHqvYI9VOAQbVdNNGGOOm6m5TJeJFxhlEwrIiSBhDLzPwnm685Lcnev+acY8JOvWCw==", null, false, "67c8a232-e87a-497a-94be-47a599fc8b8b", false, "jurian" },
+                    { "2", 0, "957a082e-6e87-4853-81bc-af8baa7205be", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAENfPcromMSOwzTVIsVertMPcO6s2ln8q4h/5o8shZRPx2qY0peaRISqkRi1OXE+ZDQ==", null, false, "b930a7d2-91de-4f49-a6a5-9ac8f51becbc", false, "ethan" }
                 });
 
             migrationBuilder.InsertData(
@@ -255,16 +245,6 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     { "1", "1" },
                     { "2", "2" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Animal_booking_id",
-                table: "Animal",
-                column: "booking_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnimalBooking_BookingsId",
-                table: "AnimalBooking",
-                column: "BookingsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -306,17 +286,19 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Booking_animal_id",
+                name: "IX_Booking_AppUserId",
                 table: "Booking",
-                column: "animal_id");
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookingAnimal_AnimalId",
+                table: "BookingAnimal",
+                column: "AnimalId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AnimalBooking");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -333,13 +315,16 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BookingAnimal");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "Animal");
 
             migrationBuilder.DropTable(
                 name: "Booking");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

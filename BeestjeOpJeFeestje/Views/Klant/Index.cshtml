@@ -1,9 +1,9 @@
 ﻿@model DateOnly
 
 <div>
-    <a href="@Url.Action("DecreaseDate", new { date = Model })">&#8592;</a>
+    <a href="@Url.Action("DecreaseDate", new { date = Model })" class="btn btn-secondary">&#8592;</a>
     <span>@Model.DayOfWeek @Model</span>
-    <a href="@Url.Action("IncreaseDate", new { date = Model })">&#8594;</a>
+    <a href="@Url.Action("IncreaseDate", new { date = Model })" class="btn btn-secondary">&#8594;</a>
 </div>
 
-<a href="@Url.Action("ChooseAnimals", new { date = Model })">Continue</a>
+<a href="@Url.Action("ConfirmDate", new { date = Model })" class="btn btn-secondary">Continue</a>

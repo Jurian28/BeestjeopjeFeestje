@@ -13,65 +13,66 @@ namespace BeestjeOpJeFeestje.Models {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
-            //Booking - Animal many - to - many relationship
-            //modelBuilder.Entity<Booking>()
-            //    .HasMany(b => b.Animals)
-            //    .WithMany(a => a.Bookings)
-            //    .UsingEntity<Dictionary<string, object>>(
-            //        "BookingAnimal",
-            //        j => j.HasOne<Animal>()
-            //              .WithMany()
-            //              .HasForeignKey("AnimalId")
-            //              .OnDelete(DeleteBehavior.Cascade),
-            //        j => j.HasOne<Booking>()
-            //              .WithMany()
-            //              .HasForeignKey("BookingId")
-            //              .OnDelete(DeleteBehavior.Cascade)
-            //    );
+            // Animal - Booking many-to-many relationship (join table needed)
+            modelBuilder.Entity<BookingAnimal>()
+                .HasKey(ba => new { ba.BookingId, ba.AnimalId });
 
-            ////Booking - AppUser one - to - many relationship
-            //modelBuilder.Entity<Booking>()
-            //    .HasOne(b => b.AppUser)
-            //    .WithMany(u => u.Bookings)
-            //    .HasForeignKey(b => b.AppUserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<BookingAnimal>()
+                .HasOne(ba => ba.Booking)
+                .WithMany(b => b.BookingAnimals)
+                .HasForeignKey(ba => ba.BookingId);
 
+            modelBuilder.Entity<BookingAnimal>()
+                .HasOne(ba => ba.Animal)
+                .WithMany(a => a.BookingAnimals)
+                .HasForeignKey(ba => ba.AnimalId);
+
+            // Booking - AppUser one-to-many relationship
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.AppUser)
+                .WithMany(u => u.Bookings)
+                .HasForeignKey(b => b.AppUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Animal entity configuration
             modelBuilder.Entity<Animal>(entity => {
                 entity.HasKey(e => e.Id);
                 entity.ToTable("Animal");
                 entity.Property(e => e.Id)
-                .HasColumnName("animal_id").IsRequired();
+                    .HasColumnName("animal_id").IsRequired();
                 entity.Property(e => e.Name)
-                .HasColumnName("name");
+                    .HasColumnName("name");
                 entity.Property(e => e.Type)
-                .HasColumnName("type");
+                    .HasColumnName("type");
                 entity.Property(e => e.Price)
-                .HasColumnName("price")
-                .HasPrecision(16, 2); 
+                    .HasColumnName("price")
+                    .HasPrecision(16, 2);
                 entity.Property(e => e.ImageUrl)
-                .HasColumnName("imageUrl");
-                entity.HasOne<Animal>().WithMany().HasForeignKey("booking_id");
+                    .HasColumnName("imageUrl");
             });
 
+            // AppUser entity configuration
             modelBuilder.Entity<AppUser>(entity => {
-                entity.HasMany(e => e.Bookings).WithOne(b => b.AppUser).HasForeignKey(e => e.Id);
+                entity.HasMany(e => e.Bookings)
+                    .WithOne(b => b.AppUser)
+                    .HasForeignKey(e => e.AppUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // Booking entity configuration
             modelBuilder.Entity<Booking>(entity => {
                 entity.HasKey(e => e.Id);
                 entity.ToTable("Booking");
                 entity.Property(e => e.Id)
-                .HasColumnName("booking_id").IsRequired();
+                    .HasColumnName("booking_id").IsRequired();
                 entity.Property(e => e.BookingDate)
-                .HasColumnName("booking_date");
+                    .HasColumnName("booking_date");
                 entity.Property(e => e.EventDate)
-                .HasColumnName("event_date");
-                //entity.Property(e => e.AppUser)
-                //.HasColumnName("app_user");
-                entity.HasOne(e => e.AppUser).WithMany(a => a.Bookings).HasForeignKey(e => e.Id);
-                entity.HasOne<Booking>().WithMany().HasForeignKey("animal_id");
+                    .HasColumnName("event_date");
+                // No need to add foreign key to Animal directly here
             });
 
+            // Adding default users and roles
             addUsersAndRoles(modelBuilder);
         }
 

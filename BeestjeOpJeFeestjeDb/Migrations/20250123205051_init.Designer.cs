@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestjeDb.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250122121856_init")]
+    [Migration("20250123205051_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AnimalBooking", b =>
-                {
-                    b.Property<int>("AnimalsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BookingsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AnimalsId", "BookingsId");
-
-                    b.HasIndex("BookingsId");
-
-                    b.ToTable("AnimalBooking");
-                });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Models.AppUser", b =>
                 {
@@ -109,33 +94,33 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bfe2862-eb64-42f8-93d5-a47bc6227749",
+                            ConcurrencyStamp = "e403d67b-4f44-411e-8ec2-b809f850fffb",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
-                            NormalizedUserName = "KORAY YILMAZ",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH3KLjfVnUyqXuDkERmivfLU6v631jyFSRFdlushRuj+JESXT3sIGVOh0HjiFGEBag==",
+                            NormalizedUserName = "JURIAN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHqvYI9VOAQbVdNNGGOOm6m5TJeJFxhlEwrIiSBhDLzPwnm685Lcnev+acY8JOvWCw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e873fffa-39fd-4312-b63b-57583b8c9e3a",
+                            SecurityStamp = "67c8a232-e87a-497a-94be-47a599fc8b8b",
                             TwoFactorEnabled = false,
-                            UserName = "Koray Yilmaz"
+                            UserName = "jurian"
                         },
                         new
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb9548bd-699d-4e11-a65a-14f0ae4cb356",
+                            ConcurrencyStamp = "957a082e-6e87-4853-81bc-af8baa7205be",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
-                            NormalizedUserName = "KORAY YILMAZS",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGZHK+/LCbmA6vKNxfqg4aGIvJKgBzSYApxzWoQkFckXppQxn2+5gh2062GHnXx/Ng==",
+                            NormalizedUserName = "ETHAN",
+                            PasswordHash = "AQAAAAIAAYagAAAAENfPcromMSOwzTVIsVertMPcO6s2ln8q4h/5o8shZRPx2qY0peaRISqkRi1OXE+ZDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7ad5d723-97f4-4061-bd60-d9e156d7a062",
+                            SecurityStamp = "b930a7d2-91de-4f49-a6a5-9ac8f51becbc",
                             TwoFactorEnabled = false,
-                            UserName = "Koray Yilmazs"
+                            UserName = "ethan"
                         });
                 });
 
@@ -159,7 +144,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasColumnName("name");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(16, 2)
+                        .HasColumnType("decimal(16,2)")
                         .HasColumnName("price");
 
                     b.Property<string>("Type")
@@ -167,21 +153,23 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("type");
 
-                    b.Property<int?>("booking_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("booking_id");
 
                     b.ToTable("Animal", (string)null);
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("booking_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2")
@@ -191,14 +179,26 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("event_date");
 
-                    b.Property<string>("animal_id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("animal_id");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Booking", (string)null);
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.BookingAnimal", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookingId", "AnimalId");
+
+                    b.HasIndex("AnimalId");
+
+                    b.ToTable("BookingAnimal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -360,41 +360,34 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AnimalBooking", b =>
-                {
-                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Animal", null)
-                        .WithMany()
-                        .HasForeignKey("AnimalsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Booking", null)
-                        .WithMany()
-                        .HasForeignKey("BookingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", b =>
-                {
-                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Animal", null)
-                        .WithMany()
-                        .HasForeignKey("booking_id");
-                });
-
             modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
                 {
                     b.HasOne("BeestjeOpJeFeestje.Models.AppUser", "AppUser")
                         .WithMany("Bookings")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.BookingAnimal", b =>
+                {
+                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Animal", "Animal")
+                        .WithMany("BookingAnimals")
+                        .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Booking", null)
-                        .WithMany()
-                        .HasForeignKey("animal_id");
+                    b.HasOne("BeestjeOpJeFeestjeDb.Models.Booking", "Booking")
+                        .WithMany("BookingAnimals")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Animal");
+
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,6 +444,16 @@ namespace BeestjeOpJeFeestjeDb.Migrations
             modelBuilder.Entity("BeestjeOpJeFeestje.Models.AppUser", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", b =>
+                {
+                    b.Navigation("BookingAnimals");
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
+                {
+                    b.Navigation("BookingAnimals");
                 });
 #pragma warning restore 612, 618
         }

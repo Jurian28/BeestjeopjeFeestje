@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeestjeOpJeFeestjeBusinessLayer\BeestjeOpJeFeestjeBusinessLayer.csproj" />
     <ProjectReference Include="..\BeestjeOpJeFeestjeDb\BeestjeOpJeFeestjeDb.csproj" />
   </ItemGroup>
 
