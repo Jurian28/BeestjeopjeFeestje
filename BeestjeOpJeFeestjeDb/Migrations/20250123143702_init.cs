@@ -21,7 +21,7 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(16,2)", precision: 16, scale: 2, nullable: false),
                     imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     booking_id = table.Column<int>(type: "int", nullable: true)
                 },
@@ -54,6 +54,7 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Card = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -240,11 +241,11 @@ namespace BeestjeOpJeFeestjeDb.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Card", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "8bfe2862-eb64-42f8-93d5-a47bc6227749", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "KORAY YILMAZ", "AQAAAAIAAYagAAAAEH3KLjfVnUyqXuDkERmivfLU6v631jyFSRFdlushRuj+JESXT3sIGVOh0HjiFGEBag==", null, false, "e873fffa-39fd-4312-b63b-57583b8c9e3a", false, "Koray Yilmaz" },
-                    { "2", 0, "bb9548bd-699d-4e11-a65a-14f0ae4cb356", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "KORAY YILMAZS", "AQAAAAIAAYagAAAAEGZHK+/LCbmA6vKNxfqg4aGIvJKgBzSYApxzWoQkFckXppQxn2+5gh2062GHnXx/Ng==", null, false, "7ad5d723-97f4-4061-bd60-d9e156d7a062", false, "Koray Yilmazs" }
+                    { "1", 0, null, "bbdf635b-3c69-4dcd-a6d5-24c7cf6e94d1", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAEAsemElRhb9CzEei7Yq8anEtgbzmSFDAJO6I7CjqdQrWP46+WNeZ7Bs0M0Q3m4UYQg==", null, false, "f46ce609-9329-41b3-ad03-6625b68bd30c", false, "jurian" },
+                    { "2", 0, null, "81fbd878-d80a-4e5d-bd4b-c734aae9fcaf", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAEJLx0jAlyUXPru/ooHn9QBvzuR7l9VS6c0FoLOFx1hIhEvVsCEOY7vZoabxFJJ1CTg==", null, false, "250895c0-dba2-4c6e-851f-1f56351af98a", false, "ethan" }
                 });
 
             migrationBuilder.InsertData(

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestjeDb.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250123132902_appuser")]
-    partial class appuser
+    [Migration("20250123143702_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,15 +43,13 @@ namespace BeestjeOpJeFeestjeDb.Migrations
             modelBuilder.Entity("BeestjeOpJeFeestje.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("appuser_id");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Card")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("card");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -107,22 +105,22 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AppUser", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4b0fbde-61eb-430e-8c09-ac2268445238",
+                            ConcurrencyStamp = "bbdf635b-3c69-4dcd-a6d5-24c7cf6e94d1",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "JURIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOAtd6nUonCu2qiOVUdrmjyjlbPfHjmUiuyrjx1Mjz7szNRDqnM9JOSCY657ibUcqQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAsemElRhb9CzEei7Yq8anEtgbzmSFDAJO6I7CjqdQrWP46+WNeZ7Bs0M0Q3m4UYQg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "13e1d16d-a1c7-4fc9-90f0-ca248b3b15dd",
+                            SecurityStamp = "f46ce609-9329-41b3-ad03-6625b68bd30c",
                             TwoFactorEnabled = false,
                             UserName = "jurian"
                         },
@@ -130,15 +128,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2dde62aa-31be-4913-ace4-d6ea97b6ff95",
+                            ConcurrencyStamp = "81fbd878-d80a-4e5d-bd4b-c734aae9fcaf",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
                             NormalizedUserName = "ETHAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIe9zp7WRL0jJUYnUBIhza4Mfbd7tFd6FqgZWEqsC8kBJBvWA+Chfm+hF4RtJhKwvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJLx0jAlyUXPru/ooHn9QBvzuR7l9VS6c0FoLOFx1hIhEvVsCEOY7vZoabxFJJ1CTg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b2854e6f-64a2-49ab-8c35-16ef496fbe46",
+                            SecurityStamp = "250895c0-dba2-4c6e-851f-1f56351af98a",
                             TwoFactorEnabled = false,
                             UserName = "ethan"
                         });

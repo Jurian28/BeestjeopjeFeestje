@@ -54,12 +54,6 @@ namespace BeestjeOpJeFeestje.Models {
             });
 
             modelBuilder.Entity<AppUser>(entity => {
-                entity.HasKey(e => e.Id);
-                entity.ToTable("AppUser");
-                entity.Property(e => e.Id) 
-                .HasColumnName("appuser_id").IsRequired();
-                entity.Property(e => e.Card)
-                .HasColumnName("card");
                 entity.HasMany(e => e.Bookings).WithOne(b => b.AppUser).HasForeignKey(e => e.Id);
             });
 
