@@ -66,8 +66,6 @@ namespace BeestjeOpJeFeestje.Models {
                 .HasColumnName("booking_date");
                 entity.Property(e => e.EventDate)
                 .HasColumnName("event_date");
-                //entity.Property(e => e.AppUser)
-                //.HasColumnName("app_user");
                 entity.HasOne(e => e.AppUser).WithMany(a => a.Bookings).HasForeignKey(e => e.Id);
                 entity.HasOne<Booking>().WithMany().HasForeignKey("animal_id");
             });

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestjeDb.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250122121856_init")]
+    [Migration("20250123143702_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -47,6 +47,9 @@ namespace BeestjeOpJeFeestjeDb.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Card")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -109,33 +112,33 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bfe2862-eb64-42f8-93d5-a47bc6227749",
+                            ConcurrencyStamp = "bbdf635b-3c69-4dcd-a6d5-24c7cf6e94d1",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
-                            NormalizedUserName = "KORAY YILMAZ",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH3KLjfVnUyqXuDkERmivfLU6v631jyFSRFdlushRuj+JESXT3sIGVOh0HjiFGEBag==",
+                            NormalizedUserName = "JURIAN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAsemElRhb9CzEei7Yq8anEtgbzmSFDAJO6I7CjqdQrWP46+WNeZ7Bs0M0Q3m4UYQg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e873fffa-39fd-4312-b63b-57583b8c9e3a",
+                            SecurityStamp = "f46ce609-9329-41b3-ad03-6625b68bd30c",
                             TwoFactorEnabled = false,
-                            UserName = "Koray Yilmaz"
+                            UserName = "jurian"
                         },
                         new
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb9548bd-699d-4e11-a65a-14f0ae4cb356",
+                            ConcurrencyStamp = "81fbd878-d80a-4e5d-bd4b-c734aae9fcaf",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
-                            NormalizedUserName = "KORAY YILMAZS",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGZHK+/LCbmA6vKNxfqg4aGIvJKgBzSYApxzWoQkFckXppQxn2+5gh2062GHnXx/Ng==",
+                            NormalizedUserName = "ETHAN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJLx0jAlyUXPru/ooHn9QBvzuR7l9VS6c0FoLOFx1hIhEvVsCEOY7vZoabxFJJ1CTg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7ad5d723-97f4-4061-bd60-d9e156d7a062",
+                            SecurityStamp = "250895c0-dba2-4c6e-851f-1f56351af98a",
                             TwoFactorEnabled = false,
-                            UserName = "Koray Yilmazs"
+                            UserName = "ethan"
                         });
                 });
 
@@ -159,7 +162,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasColumnName("name");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(16, 2)
+                        .HasColumnType("decimal(16,2)")
                         .HasColumnName("price");
 
                     b.Property<string>("Type")
