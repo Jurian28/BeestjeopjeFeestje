@@ -75,17 +75,18 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         public bool ValidateAnimals() {
             List<int> animalIds = GetSelectedAnimalIds();
             List<string> animalTypes = GetAnimalTypes(animalIds);
+            List<string> animalNames = GetAnimalNames(animalIds);
             DateOnly selectedDate = (DateOnly)GetDate();
 
-            // Regel 1: Leeuw/IJsbeer en Boerderijdier/Nom nom nom kunnen niet samen geboekt worden
-            if (animalTypes.Contains("Leeuw") || animalTypes.Contains("IJsbeer")) {
-                if (animalTypes.Contains("Boerderijdier")) {
+            // Regel 1: Leeuw/IJsbeer en Boerderijdier kunnen niet samen geboekt worden
+            if (animalNames.Contains("Leeuw") || animalNames.Contains("IJsbeer")) {
+                if (animalTypes.Contains("Boerderij")) {
                     return false;
                 }
             }
 
             // Regel 2: Pinguïn mag niet in het weekend
-            if (animalTypes.Contains("Pinguïn") && (selectedDate.DayOfWeek == DayOfWeek.Saturday || selectedDate.DayOfWeek == DayOfWeek.Sunday)) {
+            if (animalNames.Contains("Pinguïn") && (selectedDate.DayOfWeek == DayOfWeek.Saturday || selectedDate.DayOfWeek == DayOfWeek.Sunday)) {
                 return false;
             }
 
@@ -113,6 +114,17 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             return true;
         }
 
+        private List<string> GetAnimalNames(List<int> animalIds) {
+            List<string> animalTypes = new List<string>();
+
+            foreach (int id in animalIds) {
+                var animal = _context.Animals.FirstOrDefault(a => a.Id == id);
+                if (animal != null) {
+                    animalTypes.Add(animal.Name);
+                }
+            }
+            return animalTypes;
+        }
         private List<string> GetAnimalTypes(List<int> animalIds) {
             List<string> animalTypes = new List<string>();
 

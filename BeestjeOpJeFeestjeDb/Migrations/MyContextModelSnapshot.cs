@@ -91,15 +91,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0d2302a5-c42d-4bd5-bc98-64a38808e5dc",
+                            ConcurrencyStamp = "ccf1490d-2d05-4cfe-915d-17d4ab925a63",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "JURIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMtQGFUk0AMkbulJeBdukwlB7CkKEGt8IE/FuzMGdB4mnU+Kn5pJE8GGqza27oBw8Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG5fY7szSR1BnlaYdk9IPYjuzuZmgFAAqIwRz6V9MMczB6JnGoPJsDzZZx8cUHo5gQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a030ae5-c97d-47e3-ab3a-1646dd5f03b4",
+                            SecurityStamp = "4dc13235-32b5-45cc-b739-9bf06a884130",
                             TwoFactorEnabled = false,
                             UserName = "jurian"
                         },
@@ -107,15 +107,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0fd5db6-534b-405d-98b7-445d326f3a5d",
+                            ConcurrencyStamp = "a0986696-2886-4bb5-b330-00f410592b9b",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
                             NormalizedUserName = "ETHAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF9v+GB9ru2xUjMZwI818w4MkEKCMJFWsexmBJ6ZoZbI9VcChbdQcjckQCzU+EceIw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFyKRbYrU9skiteuqE14c8BYtjXdINW797Msd150os6Uz4F64YouCpUFarxwsnuGAA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "776d940d-0e63-4834-963a-d2597f3e3e69",
+                            SecurityStamp = "1dc06cf4-1ded-44e6-8618-af80c9c416be",
                             TwoFactorEnabled = false,
                             UserName = "ethan"
                         });
@@ -153,6 +153,136 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Animal", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageUrl = "#",
+                            Name = "Aap",
+                            Price = 150.00m,
+                            Type = "Jungle"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageUrl = "#",
+                            Name = "Olifant",
+                            Price = 500.00m,
+                            Type = "Jungle"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageUrl = "#",
+                            Name = "Zebra",
+                            Price = 200.00m,
+                            Type = "Jungle"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ImageUrl = "#",
+                            Name = "Leeuw",
+                            Price = 600.00m,
+                            Type = "Jungle"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ImageUrl = "#",
+                            Name = "Hond",
+                            Price = 50.00m,
+                            Type = "Boerderij"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ImageUrl = "#",
+                            Name = "Ezel",
+                            Price = 100.00m,
+                            Type = "Boerderij"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ImageUrl = "#",
+                            Name = "Koe",
+                            Price = 250.00m,
+                            Type = "Boerderij"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ImageUrl = "#",
+                            Name = "Eend",
+                            Price = 30.00m,
+                            Type = "Boerderij"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ImageUrl = "#",
+                            Name = "Kuiken",
+                            Price = 10.00m,
+                            Type = "Boerderij"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ImageUrl = "#",
+                            Name = "Pinguïn",
+                            Price = 100.00m,
+                            Type = "Sneeuw"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ImageUrl = "#",
+                            Name = "IJsbeer",
+                            Price = 350.00m,
+                            Type = "Sneeuw"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ImageUrl = "#",
+                            Name = "Zeehond",
+                            Price = 120.00m,
+                            Type = "Sneeuw"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ImageUrl = "#",
+                            Name = "Kameel",
+                            Price = 400.00m,
+                            Type = "Woestijn"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ImageUrl = "#",
+                            Name = "Slang",
+                            Price = 75.00m,
+                            Type = "Woestijn"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ImageUrl = "#",
+                            Name = "T-Rex",
+                            Price = 1000.00m,
+                            Type = "VIP"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ImageUrl = "#",
+                            Name = "Unicorn",
+                            Price = 1500.00m,
+                            Type = "VIP"
+                        });
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Booking", b =>
