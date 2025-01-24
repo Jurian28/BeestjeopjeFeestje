@@ -88,6 +88,7 @@ namespace BeestjeOpJeFeestje.Controllers {
             Booking booking = new Booking() {
 
             };
+            decimal discount = _bookingService.CalculateDiscount();
             return View(booking);
         }
     }

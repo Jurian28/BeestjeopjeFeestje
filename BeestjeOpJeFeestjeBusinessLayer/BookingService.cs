@@ -1,6 +1,7 @@
 ﻿using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics.Metrics;
 using System.Text;
 using System.Text.Json;
 
@@ -72,9 +73,39 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             throw new NotImplementedException();
         }
 
-        public void CalculateDiscount() { 
-            throw new NotImplementedException();
-            GetSelectedAnimalIds(); // dit zou je kunnen gebruiken
+        public decimal CalculateDiscount() {
+            decimal discount = 0;
+            List<int> animalIds = GetSelectedAnimalIds();
+            if(animalIds.Count >= 3) {
+                discount = discount + 10;
+            }
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                discount = discount + 15;
+            }
+            //mist nog de kaart discount, ik voeg deze toe als de main hierin gemerged is
+
+            foreach (int animalId in animalIds) {
+                Animal? animal = _context.Animals.FirstOrDefault(a => a.Id == animalId);
+                if (animal != null) {
+                    if (animal.Name == "Eend") {
+                        Random random = new Random();
+                        if(random.Next(6) == 0) {
+                            discount = discount + 50;
+                        }
+                    }
+                    char alphabet = 'a';
+                    while (animal.Name.Contains(alphabet) || alphabet == 'z') {
+                        alphabet = (char)(((int)alphabet) + 1);
+                        discount = discount + 2;
+                    }
+                }
+            }
+
+            if(discount > 60) {
+                discount = 60;
+            }
+
+            return discount;
         }
     }
 }
