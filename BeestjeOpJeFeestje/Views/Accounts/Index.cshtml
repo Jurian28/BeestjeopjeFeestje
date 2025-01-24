@@ -1,0 +1,22 @@
+﻿@using BeestjeOpJeFeestjeDb.Models
+@model IEnumerable<AppUser>
+
+<h1>Accounts</h1>
+<div>
+    @foreach (AppUser user in Model) {
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>@user.UserName</div>
+                <div>@user.Email</div>
+                <div>@user.PhoneNumber</div>
+
+                @if(user.Card != null) {
+                    <a class="btn btn-primary" href="@Url.Action("SetCard", "Accounts", new {id = user.Id})">@user.Card</a>
+                } else {
+                    <a class="btn btn-primary" href="@Url.Action("SetCard", "Accounts", new {id = user.Id})">Geen</a>
+                }
+                
+            </div>
+        </div>
+    }
+</div>
