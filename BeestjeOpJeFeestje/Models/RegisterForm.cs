@@ -5,5 +5,6 @@
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string PasswordRepeat { get; set; }
+        public string Card {  get; set; }
     }
 }
