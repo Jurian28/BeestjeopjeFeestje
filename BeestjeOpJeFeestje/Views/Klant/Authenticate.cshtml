@@ -1,6 +1,6 @@
 ﻿@model RegisterForm
 
-<h2>Register</h2>
+<h2>Vul je gegevens in</h2>
 
 <form method="post">
     <div class="form-group">
@@ -29,3 +29,5 @@
 </form>
 
 
+<h2>Log in</h2>
+<a href="@Url.Action("Login", "Auth", new { returnUrl = Url.Action("Authenticate", "Klant") })">Log in</a>

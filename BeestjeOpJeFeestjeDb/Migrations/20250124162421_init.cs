@@ -180,8 +180,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 {
                     booking_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    booking_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    event_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    booking_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    event_date = table.Column<DateOnly>(type: "date", nullable: false),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -233,8 +233,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "e403d67b-4f44-411e-8ec2-b809f850fffb", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAEHqvYI9VOAQbVdNNGGOOm6m5TJeJFxhlEwrIiSBhDLzPwnm685Lcnev+acY8JOvWCw==", null, false, "67c8a232-e87a-497a-94be-47a599fc8b8b", false, "jurian" },
-                    { "2", 0, "957a082e-6e87-4853-81bc-af8baa7205be", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAENfPcromMSOwzTVIsVertMPcO6s2ln8q4h/5o8shZRPx2qY0peaRISqkRi1OXE+ZDQ==", null, false, "b930a7d2-91de-4f49-a6a5-9ac8f51becbc", false, "ethan" }
+                    { "1", 0, "0d2302a5-c42d-4bd5-bc98-64a38808e5dc", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAEMtQGFUk0AMkbulJeBdukwlB7CkKEGt8IE/FuzMGdB4mnU+Kn5pJE8GGqza27oBw8Q==", null, false, "1a030ae5-c97d-47e3-ab3a-1646dd5f03b4", false, "jurian" },
+                    { "2", 0, "a0fd5db6-534b-405d-98b7-445d326f3a5d", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAEF9v+GB9ru2xUjMZwI818w4MkEKCMJFWsexmBJ6ZoZbI9VcChbdQcjckQCzU+EceIw==", null, false, "776d940d-0e63-4834-963a-d2597f3e3e69", false, "ethan" }
                 });
 
             migrationBuilder.InsertData(

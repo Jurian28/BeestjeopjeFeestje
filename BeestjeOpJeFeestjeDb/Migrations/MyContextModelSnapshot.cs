@@ -91,15 +91,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e403d67b-4f44-411e-8ec2-b809f850fffb",
+                            ConcurrencyStamp = "0d2302a5-c42d-4bd5-bc98-64a38808e5dc",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "JURIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHqvYI9VOAQbVdNNGGOOm6m5TJeJFxhlEwrIiSBhDLzPwnm685Lcnev+acY8JOvWCw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMtQGFUk0AMkbulJeBdukwlB7CkKEGt8IE/FuzMGdB4mnU+Kn5pJE8GGqza27oBw8Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "67c8a232-e87a-497a-94be-47a599fc8b8b",
+                            SecurityStamp = "1a030ae5-c97d-47e3-ab3a-1646dd5f03b4",
                             TwoFactorEnabled = false,
                             UserName = "jurian"
                         },
@@ -107,15 +107,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "957a082e-6e87-4853-81bc-af8baa7205be",
+                            ConcurrencyStamp = "a0fd5db6-534b-405d-98b7-445d326f3a5d",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
                             NormalizedUserName = "ETHAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENfPcromMSOwzTVIsVertMPcO6s2ln8q4h/5o8shZRPx2qY0peaRISqkRi1OXE+ZDQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF9v+GB9ru2xUjMZwI818w4MkEKCMJFWsexmBJ6ZoZbI9VcChbdQcjckQCzU+EceIw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b930a7d2-91de-4f49-a6a5-9ac8f51becbc",
+                            SecurityStamp = "776d940d-0e63-4834-963a-d2597f3e3e69",
                             TwoFactorEnabled = false,
                             UserName = "ethan"
                         });
@@ -168,12 +168,12 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly>("BookingDate")
+                        .HasColumnType("date")
                         .HasColumnName("booking_date");
 
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly>("EventDate")
+                        .HasColumnType("date")
                         .HasColumnName("event_date");
 
                     b.HasKey("Id");

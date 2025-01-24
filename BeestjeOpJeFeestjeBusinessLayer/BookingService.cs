@@ -2,6 +2,7 @@
 using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics.Metrics;
+using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Text.Json;
 
@@ -9,10 +10,12 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
         private readonly MyContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<AppUser> _userManager;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
-        public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) {
+        public BookingService(MyContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) {
             _context = context;
+            _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -70,7 +73,57 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
 
         public bool ValidateAnimals() {
-            throw new NotImplementedException();
+            List<int> animalIds = GetSelectedAnimalIds();
+            List<string> animalTypes = GetAnimalTypes(animalIds);
+            DateOnly selectedDate = (DateOnly)GetDate();
+
+            // Regel 1: Leeuw/IJsbeer en Boerderijdier/Nom nom nom kunnen niet samen geboekt worden
+            if (animalTypes.Contains("Leeuw") || animalTypes.Contains("IJsbeer")) {
+                if (animalTypes.Contains("Boerderijdier")) {
+                    return false;
+                }
+            }
+
+            // Regel 2: Pinguïn mag niet in het weekend
+            if (animalTypes.Contains("Pinguïn") && (selectedDate.DayOfWeek == DayOfWeek.Saturday || selectedDate.DayOfWeek == DayOfWeek.Sunday)) {
+                return false;
+            }
+
+            // Regel 3: Woestijndieren kunnen niet geboekt worden van oktober-februari
+            if (animalTypes.Contains("Woestijn") && (selectedDate.Month >= 10 && selectedDate.Month <= 2)) {
+                return false;
+            }
+
+            // Regel 4: Sneeuwdieren kunnen niet geboekt worden van juni-augustus
+            if (animalTypes.Contains("Sneeuw") && (selectedDate.Month >= 6 && selectedDate.Month <= 8)) {
+                return false;
+            }
+
+            // Regel 5: Klanten zonder klantenkaart mogen maximaal 3 dieren boeken
+            //int maxAnimals = GetMaxAnimalsBasedOnCustomerCard();
+            //if (animalIds.Count > maxAnimals) {
+            //    return false;
+            //}
+
+            //// Regel 6: Klanten met platina klantenkaart kunnen VIP-dieren boeken
+            //if (HasPlatinumCard() && animalIds.Any(id => IsVIPAnimal(id))) {
+            //    return true; // Valid, VIP dieren mogen worden geboekt
+            //}
+
+            return true;
+        }
+
+        private List<string> GetAnimalTypes(List<int> animalIds) {
+            List<string> animalTypes = new List<string>();
+
+            foreach (int id in animalIds) {
+                var animal = _context.Animals.FirstOrDefault(a => a.Id == id);
+                if (animal != null) {
+                    animalTypes.Add(animal.Type);
+                }
+            }
+
+            return animalTypes;
         }
 
         public decimal CalculateDiscount() {
@@ -106,6 +159,58 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             }
 
             return discount;
+        }
+
+        private async Task<List<BookingAnimal>> GetBookingAnimals(bool unLoaded = false) {
+            List<int> animalIds = GetSelectedAnimalIds();
+
+            List<Animal> animals = _context.Animals.Where(a => animalIds.Contains(a.Id)).ToList();
+
+            List<BookingAnimal> bookingAnimals = animals.Select(animal => new BookingAnimal {
+                AnimalId = animal.Id,
+            }).ToList();
+            if (!unLoaded) {
+                foreach (var bookingAnimal in bookingAnimals) { // lazy load
+                    await _context.Entry(bookingAnimal).Reference(ba => ba.Animal).LoadAsync();
+                }
+            }
+
+            return bookingAnimals;
+        }
+
+        public async Task<Booking> GetBooking(bool unloaded = false) {
+            AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            DateOnly? eventDate = GetDate();
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
+            List<BookingAnimal> bookingAnimals = await GetBookingAnimals(unloaded);
+
+            Booking booking = new Booking() {
+                BookingAnimals = bookingAnimals,
+                AppUser = appUser,
+                AppUserId = appUser?.Id,
+                EventDate = (DateOnly)eventDate,
+                BookingDate = currentDate
+            };
+            return booking;
+        }
+
+        public void SetAppUserId(string userId) {
+            setHttpContextString("AppUserId", userId);
+        }
+
+        public async Task ConfirmBooking() {
+            Booking booking = await GetBooking(true);
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
+        }
+
+        public bool ValidateBookingStep(int bookingStep) {
+            int currentBookingStep = int.Parse(getHttpContextString("BookingStep"));
+            return bookingStep == currentBookingStep;
+        }
+
+        public void SetBookingStep(int bookingStep) {
+            setHttpContextString("BookingStep", bookingStep.ToString());
         }
     }
 }

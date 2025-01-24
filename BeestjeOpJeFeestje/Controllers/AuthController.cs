@@ -35,21 +35,29 @@ namespace Bumbo.Controllers {
             return View();
         }
         [HttpGet]
-        public IActionResult Login() {
+        public IActionResult Login(string returnUrl = null) {
+            ViewData["ReturnUrl"] = returnUrl; // Pass returnUrl to the view
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginForm loginForm) {
+        public async Task<IActionResult> Login(LoginForm loginForm, string returnUrl = null) {
             AppUser? user = await _userManager.FindByEmailAsync(loginForm.Email);
             if (user == null) {
+                ViewData["ReturnUrl"] = returnUrl;
                 return View();
             }
             var result = await _signInManager.PasswordSignInAsync(user,
                    loginForm.Password, true, false);
 
-            if (!result.Succeeded)
+            if (!result.Succeeded) { 
+                ViewData["ReturnUrl"] = returnUrl;
                 return View();
+            }
+
+            if (!string.IsNullOrEmpty(returnUrl)) { // go back to the view the user came from
+                return Redirect(returnUrl);
+            }
 
             if (await _userManager.IsInRoleAsync(user, "Boerderij"))
                 return RedirectToAction("index", "Boerderij");

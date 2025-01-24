@@ -1,1 +1,39 @@
-﻿Confirm booking
+﻿@using BeestjeOpJeFeestjeDb.Models
+@model Booking;
+
+
+Confirm booking
+
+<div>
+    <h2>Booking Information</h2>
+    <p><strong>Booking ID:</strong> @Model.Id</p>
+    <p><strong>Booking Date:</strong> @Model.BookingDate.ToString("yyyy-MM-dd")</p>
+    <p><strong>Event Date:</strong> @Model.EventDate.ToString("yyyy-MM-dd")</p>
+</div>
+
+<div>
+    <h2>App User</h2>
+    <p><strong>User ID:</strong> @Model.AppUser?.Id</p>
+    <p><strong>User Name:</strong> @Model.AppUser?.UserName</p>
+    <p><strong>User Email:</strong> @Model.AppUser?.Email</p>
+</div>
+
+@if (Model.BookingAnimals != null && Model.BookingAnimals.Any())
+{
+    <div>
+        <h2>Animals in Booking</h2>
+        <ul>
+            @foreach (var bookingAnimal in Model.BookingAnimals)
+            {
+                <li>
+                    <strong>Animal ID:</strong> @bookingAnimal.AnimalId
+                    <br />
+                    <strong>Animal Name:</strong> @bookingAnimal.Animal?.Name
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+
+<a href="@Url.Action("AddBooking")">confirm</a>

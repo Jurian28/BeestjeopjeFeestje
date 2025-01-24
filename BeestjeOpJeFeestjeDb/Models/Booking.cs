@@ -4,8 +4,8 @@ using BeestjeOpJeFeestje.Models;
 namespace BeestjeOpJeFeestjeDb.Models {
     public class Booking {
         public int Id { get; set; }
-        public DateTime BookingDate { get; set; }
-        public DateTime EventDate { get; set; }
+        public DateOnly BookingDate { get; set; }
+        public DateOnly EventDate { get; set; }
 
         // Foreign key to AppUser
         public string AppUserId { get; set; }

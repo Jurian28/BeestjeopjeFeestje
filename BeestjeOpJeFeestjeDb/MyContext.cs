@@ -9,6 +9,7 @@ namespace BeestjeOpJeFeestje.Models {
 
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
