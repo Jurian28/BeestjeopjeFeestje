@@ -63,11 +63,20 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1, animal2, animal3 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
+            bookingService.SetAppUserId(user.Id);
+
+            foreach(BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
 
             // Act
             bookingService.CalculateDiscount();

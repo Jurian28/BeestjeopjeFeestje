@@ -16,17 +16,21 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
         private decimal _discount;
+        private string _user;
+        private List<int> _animalIds;
 
         public BookingService(MyContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) {
             _context = context;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _animalIds = new List<int>();
         }
 
         //voor unit test
         public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) { 
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _animalIds = new List<int>();
         }
 
         private string? getHttpContextString(string key) {
@@ -188,7 +192,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void CalculateDiscount() {
             decimal discount = 0;
-            List<int> animalIds = GetSelectedAnimalIds();
+            List<int> animalIds = _animalIds;
             // discount 1: Meer dan drie animals geboekt
             if(animalIds.Count >= 3) {
                 discount = discount + 10;
@@ -198,7 +202,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 discount = discount + 15;
             }
             // discount 3: De klant heeft een klanten kaart
-            AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == _user);
             if (appUser != null) {
                 if(appUser.Card != null) {
                     discount = discount + 10;
@@ -207,7 +211,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
             foreach (int animalId in animalIds) {
                 Animal? animal = _context.Animals.FirstOrDefault(a => a.Id == animalId);
-                if (animal != null) {
+                if (animal != null && animal.Name != null) {
                     //discount 4: De eend heeft een 1 op 6 kans voor een discount
                     if (animal.Name == "Eend") {
                         Random random = new Random();
@@ -292,6 +296,14 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void SetBookingStep(int bookingStep) {
             setHttpContextString("BookingStep", bookingStep.ToString());
+        }
+
+        public void SetUser(string user) {
+            _user = user;
+        }
+
+        public void AddToAnimalList(int id) {
+            _animalIds.Add(id);
         }
 
         public void ResetBooking() {

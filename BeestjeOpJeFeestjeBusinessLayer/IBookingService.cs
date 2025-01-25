@@ -1,4 +1,5 @@
 ﻿
+using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeDb.Models;
 
 namespace BeestjeOpJeFeestjeBusinessLayer {
@@ -22,6 +23,9 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         Task ConfirmBooking();
         bool ValidateBookingStep(int bookingStep); 
         void SetBookingStep(int bookingStep);
+
+        void SetUser(string userId);
+        void AddToAnimalList(int animalId);
 
         void ResetBooking();
     }
