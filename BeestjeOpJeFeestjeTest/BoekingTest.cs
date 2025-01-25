@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Identity;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.SignalR;
+using BeestjeOpJeFeestjeDb;
+using Moq.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestjeTest {
     [TestClass]
@@ -47,11 +51,11 @@ namespace BeestjeOpJeFeestjeTest {
 
             booking.BookingAnimals = bookingAnimals;
 
-            Mock<MyContext> myContext = new Mock<MyContext>();
-            Mock<UserManager<AppUser>> userManager = new Mock<UserManager<AppUser>>();
-            Mock<IHttpContextAccessor> httpContext = new Mock<IHttpContextAccessor>();
+            var myContextMock = new Mock<MyContext>();
+            var entities = new List<Booking>() { booking };
+            myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContext.Object, userManager.Object, httpContext.Object);
+            var bookingService = new BookingService(myContextMock.Object);
 
             // Act
             bookingService.CalculateDiscount();
@@ -76,14 +80,14 @@ namespace BeestjeOpJeFeestjeTest {
             bookingAnimal1.Animal = animal2;
             bookingAnimal1.Booking = booking;
             bookingAnimals.Add(bookingAnimal2);
-
+   
             booking.BookingAnimals = bookingAnimals;
 
-            Mock<MyContext> myContext = new Mock<MyContext>();
-            Mock<UserManager<AppUser>> userManager = new Mock<UserManager<AppUser>>();
-            Mock<IHttpContextAccessor> httpContext = new Mock<IHttpContextAccessor>();
+            var myContextMock = new Mock<MyContext>();
+            var entities = new List<Booking>() { booking };
+            myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContext.Object, userManager.Object, httpContext.Object);
+            var bookingService = new BookingService(myContextMock.Object);
 
             // Act
             bookingService.CalculateDiscount();
@@ -95,11 +99,11 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void DiscountMondayOrTuesday() {
-            Mock<MyContext> myContext = new Mock<MyContext>();
-            Mock<UserManager<AppUser>> userManager = new Mock<UserManager<AppUser>>();
-            Mock<IHttpContextAccessor> httpContext = new Mock<IHttpContextAccessor>();
+            var myContextMock = new Mock<MyContext>();
+            var entities = new List<Booking>() { booking };
+            myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContext.Object, userManager.Object, httpContext.Object);
+            var bookingService = new BookingService(myContextMock.Object);
 
             // Act
             bookingService.CalculateDiscount();

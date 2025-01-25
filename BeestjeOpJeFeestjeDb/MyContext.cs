@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestjeDb.Models;
+﻿using BeestjeOpJeFeestjeDb;
+using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BeestjeOpJeFeestje.Models {
     public class MyContext : IdentityDbContext<AppUser> {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
+
+        //public MyContext() { }
 
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Animal> Animals { get; set; }

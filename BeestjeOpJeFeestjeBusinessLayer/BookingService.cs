@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using BeestjeOpJeFeestjeDb;
 
 namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
@@ -21,6 +22,9 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
+
+        //voor unit test
+        public BookingService(MyContext context) { _context = context; }
 
         private string? getHttpContextString(string key) {
             if (!HttpContext.Session.TryGetValue(key, out var output)) {
