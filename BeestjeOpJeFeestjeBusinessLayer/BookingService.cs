@@ -12,7 +12,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
         private readonly MyContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<AppUser>? _userManager;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
         private decimal _discount;
@@ -24,15 +24,24 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         }
 
         //voor unit test
-        public BookingService(MyContext context) { _context = context; }
+        public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) { 
+            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         private string? getHttpContextString(string key) {
+            if(_userManager == null) {
+                return null;
+            }
             if (!HttpContext.Session.TryGetValue(key, out var output)) {
                 return null;
             }
             return Encoding.UTF8.GetString(output);
         }
         private void setHttpContextString(string key, string value) {
+            if (_userManager == null) {
+                return;
+            }
             HttpContext.Session.Set(key, Encoding.UTF8.GetBytes(value));
         }
 
@@ -189,9 +198,11 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 discount = discount + 15;
             }
             // discount 3: De klant heeft een klanten kaart
-            AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
-            if (appUser.Card != null) {
-                discount = discount + 10;
+            AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            if (appUser != null) {
+                if(appUser.Card != null) {
+                    discount = discount + 10;
+                }
             }
 
             foreach (int animalId in animalIds) {

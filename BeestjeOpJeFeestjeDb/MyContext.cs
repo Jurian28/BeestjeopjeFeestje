@@ -8,11 +8,11 @@ namespace BeestjeOpJeFeestje.Models {
     public class MyContext : IdentityDbContext<AppUser> {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
-        //public MyContext() { }
+        public MyContext() { }
 
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Animal> Animals { get; set; }
-        public DbSet<AppUser> AppUsers { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Animal> Animals { get; set; }
+        public virtual DbSet<AppUser> AppUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);

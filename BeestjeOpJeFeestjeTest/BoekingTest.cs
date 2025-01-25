@@ -15,6 +15,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.SignalR;
 using BeestjeOpJeFeestjeDb;
 using Moq.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace BeestjeOpJeFeestjeTest {
     [TestClass]
@@ -49,13 +50,24 @@ namespace BeestjeOpJeFeestjeTest {
             bookingAnimal1.Booking = booking;
             bookingAnimals.Add(bookingAnimal3);
 
+            AppUser user = new AppUser();
+            booking.AppUser = user;
+
             booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
             myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContextMock.Object);
+            var myContextMockUser = new Mock<MyContext>();
+            var entitiesUser = new List<AppUser>() { user };
+            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
+
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            var defaultContext = new DefaultHttpContext();
+            mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
+
+            var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
             // Act
             bookingService.CalculateDiscount();
@@ -87,7 +99,15 @@ namespace BeestjeOpJeFeestjeTest {
             var entities = new List<Booking>() { booking };
             myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContextMock.Object);
+            var myContextMockUser = new Mock<MyContext>();
+            var entitiesUser = new List<AppUser>() { user };
+            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
+
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            var defaultContext = new DefaultHttpContext();
+            mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
+
+            var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
             // Act
             bookingService.CalculateDiscount();
@@ -103,7 +123,15 @@ namespace BeestjeOpJeFeestjeTest {
             var entities = new List<Booking>() { booking };
             myContextMock.Setup(c => c.Bookings).ReturnsDbSet(entities);
 
-            var bookingService = new BookingService(myContextMock.Object);
+            var myContextMockUser = new Mock<MyContext>();
+            var entitiesUser = new List<AppUser>() { user };
+            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
+
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            var defaultContext = new DefaultHttpContext();
+            mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
+
+            var bookingService = new BookingService(myContextMock.Object , mockHttpContextAccessor.Object);
 
             // Act
             bookingService.CalculateDiscount();
