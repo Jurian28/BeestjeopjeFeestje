@@ -30,6 +30,9 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Card")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -91,15 +94,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccf1490d-2d05-4cfe-915d-17d4ab925a63",
+                            ConcurrencyStamp = "3ee6efcc-124f-4ca7-9765-d177613a127a",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "JURIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG5fY7szSR1BnlaYdk9IPYjuzuZmgFAAqIwRz6V9MMczB6JnGoPJsDzZZx8cUHo5gQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIvsBA/mo2rYRCVoYd5y9AAXRvh8jgqMMcVpKGec+lDUJlfiqcPJyaj5mV6CoChHnQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4dc13235-32b5-45cc-b739-9bf06a884130",
+                            SecurityStamp = "6ec6d937-026a-4bfd-8fcb-84f5a5c6e349",
                             TwoFactorEnabled = false,
                             UserName = "jurian"
                         },
@@ -107,15 +110,15 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0986696-2886-4bb5-b330-00f410592b9b",
+                            ConcurrencyStamp = "79c7f6f4-b4ba-4e2a-85a4-cb0382a74655",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
                             NormalizedUserName = "ETHAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFyKRbYrU9skiteuqE14c8BYtjXdINW797Msd150os6Uz4F64YouCpUFarxwsnuGAA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGNnvtHcb5rjey70b5NvxpNFcduwd9TMK+RU525RGKFpKz8PbR//LkIxjPaZA5+cbQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1dc06cf4-1ded-44e6-8618-af80c9c416be",
+                            SecurityStamp = "701ad4a7-2aeb-413a-8f05-71441393455a",
                             TwoFactorEnabled = false,
                             UserName = "ethan"
                         });

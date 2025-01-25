@@ -26,4 +26,12 @@
     <p class="text-center">@Model.Date</p>
 </div>
 
+@if (ViewData.ModelState["AnimalValidations"]?.Errors.Count > 0)
+{
+    foreach (var error in ViewData.ModelState["AnimalValidations"].Errors)
+    {
+        <p>@error.ErrorMessage</p>
+    }
+}
+
 <a href="@Url.Action("ConfirmSelectedAnimals")" class="btn btn-primary">Door naar de volgende stap</a>

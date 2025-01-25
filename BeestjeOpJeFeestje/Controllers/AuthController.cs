@@ -26,7 +26,6 @@ namespace Bumbo.Controllers {
         }
 
         [HttpPost]
-        [Authorize(Roles = "boerderij")]
         public async Task<IActionResult> Register(RegisterForm registerForm) {
             AppUser user = new AppUser() {
                 UserName = registerForm.Name,
@@ -38,14 +37,34 @@ namespace Bumbo.Controllers {
 
             var result = await _userManager.CreateAsync(user, registerForm.Password);
 
-            IdentityUserRole<string> role = new IdentityUserRole<string> { UserId = user.Id, RoleId = "2" };
-            _context.UserRoles.Add(role);
-            _context.SaveChanges();
-
             if (result.Succeeded) {
+                var roleResult = await _userManager.AddToRoleAsync(user, "klant");
+                _context.SaveChanges();
                 return RedirectToAction("Index", "Boerderij");
             }
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUserInfo(RegisterForm registerForm, string returnUrl) {
+            AppUser user = new AppUser() {
+                UserName = registerForm.Name,
+                NormalizedUserName = registerForm.Name.ToUpper(),
+                Email = registerForm.Email,
+                PhoneNumber = registerForm.PhoneNumber,
+                Card = registerForm.Card
+            };
+
+            var result = await _userManager.CreateAsync(user, registerForm.Password);
+
+            if (result.Succeeded) {
+                await _signInManager.PasswordSignInAsync(user,
+                       registerForm.Password, true, false);
+
+                var roleResult = await _userManager.AddToRoleAsync(user, "klant");
+                _context.SaveChanges();
+            }
+            return Redirect(returnUrl);
         }
 
         private string GeneratePassword() {
@@ -71,7 +90,7 @@ namespace Bumbo.Controllers {
             var result = await _signInManager.PasswordSignInAsync(user,
                    loginForm.Password, true, false);
 
-            if (!result.Succeeded) { 
+            if (!result.Succeeded) {
                 ViewData["ReturnUrl"] = returnUrl;
                 return View();
             }

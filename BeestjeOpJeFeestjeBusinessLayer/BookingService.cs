@@ -5,6 +5,7 @@ using System.Diagnostics.Metrics;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
@@ -55,7 +56,13 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
 
         public List<Animal> GetAvailableAnimals() {
-            List<Animal> animals = _context.Animals.ToList();
+            DateOnly? date = GetDate();
+
+            List<Animal> animals = _context.Animals
+                    .Include(a => a.BookingAnimals)
+                        .ThenInclude(ba => ba.Booking) 
+                    .Where(a => a.BookingAnimals.All(ba => ba.Booking.EventDate != date.Value))
+                    .ToList();
 
             return animals;
         }
@@ -72,46 +79,72 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         }
 
 
-        public bool ValidateAnimals() {
+        public bool ValidateAnimals(out List<string> modelErrors) {
+            modelErrors = new List<string>();
+
             List<int> animalIds = GetSelectedAnimalIds();
             List<string> animalTypes = GetAnimalTypes(animalIds);
             List<string> animalNames = GetAnimalNames(animalIds);
             DateOnly selectedDate = (DateOnly)GetDate();
 
+            if (animalIds.Count == 0) {
+                modelErrors.Add("Selecteer een of meerdere dieren.");
+                return false;
+            }
+
             // Regel 1: Leeuw/IJsbeer en Boerderijdier kunnen niet samen geboekt worden
             if (animalNames.Contains("Leeuw") || animalNames.Contains("IJsbeer")) {
                 if (animalTypes.Contains("Boerderij")) {
-                    return false;
+                    modelErrors.Add("Een leeuw of ijsbeer kan niet samen met een boerderijdier geboekt worden.");
                 }
             }
 
             // Regel 2: Pinguïn mag niet in het weekend
             if (animalNames.Contains("Pinguïn") && (selectedDate.DayOfWeek == DayOfWeek.Saturday || selectedDate.DayOfWeek == DayOfWeek.Sunday)) {
-                return false;
+                modelErrors.Add("Een pinguïn mag niet in het weekend geboekt worden.");
             }
 
             // Regel 3: Woestijndieren kunnen niet geboekt worden van oktober-februari
-            if (animalTypes.Contains("Woestijn") && (selectedDate.Month >= 10 && selectedDate.Month <= 2)) {
-                return false;
+            if (animalTypes.Contains("Woestijn") && (selectedDate.Month >= 10 || selectedDate.Month <= 2)) { // TODO bij de maanden doet die het nog niet 
+                modelErrors.Add("Woestijndieren kunnen niet geboekt worden van oktober tot februari.");
             }
 
             // Regel 4: Sneeuwdieren kunnen niet geboekt worden van juni-augustus
             if (animalTypes.Contains("Sneeuw") && (selectedDate.Month >= 6 && selectedDate.Month <= 8)) {
-                return false;
+                modelErrors.Add("Sneeuwdieren kunnen niet geboekt worden van juni tot augustus.");
             }
 
-            // Regel 5: Klanten zonder klantenkaart mogen maximaal 3 dieren boeken
-            //int maxAnimals = GetMaxAnimalsBasedOnCustomerCard();
-            //if (animalIds.Count > maxAnimals) {
-            //    return false;
-            //}
 
-            //// Regel 6: Klanten met platina klantenkaart kunnen VIP-dieren boeken
-            //if (HasPlatinumCard() && animalIds.Any(id => IsVIPAnimal(id))) {
-            //    return true; // Valid, VIP dieren mogen worden geboekt
-            //}
+            return modelErrors.Count == 0;
+        }
 
-            return true;
+
+        public bool ValidateUserCard(out List<string> modelErrors) {
+            modelErrors = new List<string>();
+
+            List<int> animalIds = GetSelectedAnimalIds();
+            List<string> animalTypes = GetAnimalTypes(animalIds);
+            AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+
+            int maxAnimals = appUser.Card switch {
+                "Geen" => 3, 
+                "Zilver" => 4,
+                "Goud" => int.MaxValue, 
+                "Platina" => int.MaxValue, 
+                _ => 3 
+            };
+
+            // Regel 5: Controleer of het aantal geselecteerde dieren binnen de limiet valt
+            if (animalIds.Count > maxAnimals) {
+                modelErrors.Add($"Met uw kaart mag u maximaal {maxAnimals} dieren boeken.");
+            }
+
+            // Regel 6: Controleer of VIP-dieren alleen geboekt worden door klanten met een platina kaart
+            if (animalTypes.Contains("VIP") && appUser.Card != "Platina") {
+                modelErrors.Add("VIP-dieren kunnen alleen geboekt worden door klanten met een platina klantenkaart.");
+            }
+
+            return modelErrors.Count == 0;
         }
 
         private List<string> GetAnimalNames(List<int> animalIds) {
@@ -173,10 +206,15 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             return discount;
         }
 
-        private async Task<List<BookingAnimal>> GetBookingAnimals(bool unLoaded = false) {
+        public List<Animal> GetSelectedAnimals() {
             List<int> animalIds = GetSelectedAnimalIds();
 
             List<Animal> animals = _context.Animals.Where(a => animalIds.Contains(a.Id)).ToList();
+            return animals;
+        }
+
+        private async Task<List<BookingAnimal>> GetBookingAnimals(bool unLoaded = false) {
+            List<Animal> animals = GetSelectedAnimals();
 
             List<BookingAnimal> bookingAnimals = animals.Select(animal => new BookingAnimal {
                 AnimalId = animal.Id,
@@ -218,11 +256,15 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public bool ValidateBookingStep(int bookingStep) {
             int currentBookingStep = int.Parse(getHttpContextString("BookingStep"));
-            return bookingStep == currentBookingStep;
+            return bookingStep <= currentBookingStep;
         }
 
         public void SetBookingStep(int bookingStep) {
             setHttpContextString("BookingStep", bookingStep.ToString());
+        }
+
+        public void ResetBooking() {
+            HttpContext.Session.Clear();
         }
     }
 }

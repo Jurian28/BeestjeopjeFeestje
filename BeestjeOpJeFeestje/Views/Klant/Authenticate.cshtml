@@ -1,33 +1,42 @@
-﻿@model RegisterForm
+﻿@using BeestjeOpJeFeestjeDb.Models
+@model KlantAuthenticateViewModel;
 
 <h2>Vul je gegevens in</h2>
 
-<form method="post">
+<form asp-action="AddUserInfo" asp-controller="Auth" asp-route-returnUrl="@Url.Action("Authenticate", "Klant")" method="post">
     <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="RegisterForm.Name" class="control-label"></label>
+        <input asp-for="RegisterForm.Name" class="form-control" />
+        <span asp-validation-for="RegisterForm.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <label asp-for="RegisterForm.Email" class="control-label"></label>
+        <input asp-for="RegisterForm.Email" class="form-control" />
+        <span asp-validation-for="RegisterForm.Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" class="form-control" type="password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <label asp-for="RegisterForm.Password" class="control-label"></label>
+        <input asp-for="RegisterForm.Password" class="form-control" type="password" />
+        <span asp-validation-for="RegisterForm.Password" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PasswordRepeat" class="control-label"></label>
-        <input asp-for="PasswordRepeat" class="form-control" type="password" />
-        <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+        <label asp-for="RegisterForm.PasswordRepeat" class="control-label"></label>
+        <input asp-for="RegisterForm.PasswordRepeat" class="form-control" type="password" />
+        <span asp-validation-for="RegisterForm.PasswordRepeat" class="text-danger"></span>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Register</button>
     </div>
 </form>
 
-
 <h2>Log in</h2>
 <a href="@Url.Action("Login", "Auth", new { returnUrl = Url.Action("Authenticate", "Klant") })">Log in</a>
+
+<h2>Extra Data</h2>
+<ul>
+    @foreach (Animal animal in Model.Animals)
+    {
+        <li>@animal.Name</li>
+    }
+</ul>
+<p>@Model.Date</p>

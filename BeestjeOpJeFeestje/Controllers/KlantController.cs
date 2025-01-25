@@ -1,6 +1,7 @@
 ﻿using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
@@ -53,7 +54,12 @@ namespace BeestjeOpJeFeestje.Controllers {
         }
 
         // step 2
-        public IActionResult ChooseAnimals() {
+        public IActionResult ChooseAnimals(List<string> validationErrors = null) {
+            validationErrors ??= new List<string>();
+            foreach (var error in validationErrors) {
+                ModelState.AddModelError("AnimalValidations", error);
+            }
+
             if (!_bookingService.ValidateBookingStep(2)) {
                 return NotFound();
             }
@@ -88,8 +94,9 @@ namespace BeestjeOpJeFeestje.Controllers {
                 return NotFound();
             }
 
-            if (!_bookingService.ValidateAnimals()) {
-                return RedirectToAction("ChooseAnimals"); // TODO: iets met ModelErrors erbij doen
+            List<string> modelErrors;
+            if (!_bookingService.ValidateAnimals(out modelErrors)) {
+                return RedirectToAction("ChooseAnimals", new { validationErrors = modelErrors });
             }
 
             _bookingService.SetBookingStep(3);
@@ -97,23 +104,35 @@ namespace BeestjeOpJeFeestje.Controllers {
         }
 
         // step 3
+        [HttpGet]
         public IActionResult Authenticate() {
             if (!_bookingService.ValidateBookingStep(3)) {
                 return NotFound();
             }
 
             if (!User.Identity.IsAuthenticated) {
-                return View();
+                KlantAuthenticateViewModel viewModel = new() {
+                    Date = (DateOnly)_bookingService.GetDate(),
+                    Animals = _bookingService.GetSelectedAnimals()
+                };
+
+                return View(viewModel);
             }
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _bookingService.SetAppUserId(userId);
+
+            List<string> modelErrors;
+            if (!_bookingService.ValidateUserCard(out modelErrors)) {
+                return RedirectToAction("ChooseAnimals", new { validationErrors = modelErrors });
+            };
 
             _bookingService.SetBookingStep(4);
             return RedirectToAction("ConfirmBooking");
         }
 
         // step 4
+        [Authorize]
         public async Task<IActionResult> ConfirmBooking() {
             if (!_bookingService.ValidateBookingStep(4)) {
                 return NotFound();
@@ -124,12 +143,15 @@ namespace BeestjeOpJeFeestje.Controllers {
             return View(booking);
         }
 
+        [Authorize]
         public async Task<IActionResult> AddBooking() {
             if (!_bookingService.ValidateBookingStep(4)) {
                 return NotFound();
             }
 
             await _bookingService.ConfirmBooking();
+
+            _bookingService.ResetBooking();
             return RedirectToAction("Index");
         }
     }
