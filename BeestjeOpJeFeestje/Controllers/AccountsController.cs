@@ -13,9 +13,6 @@ namespace BeestjeOpJeFeestje.Controllers {
         public IActionResult Index() {
             IEnumerable <AppUser> users = _context.Users;
             List<AppUser> usersForView = new List<AppUser>();
-            //foreach (AppUser user in users) { 
-            //    if(user.)
-            //}
             return View(users);
         }
 

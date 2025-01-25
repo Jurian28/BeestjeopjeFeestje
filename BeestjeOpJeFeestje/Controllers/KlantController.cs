@@ -138,7 +138,7 @@ namespace BeestjeOpJeFeestje.Controllers {
                 return NotFound();
             }
 
-            decimal discount = _bookingService.CalculateDiscount();
+            // dit is voor discount _bookingService.CalculateDiscount();
             Booking booking = await _bookingService.GetBooking();
             return View(booking);
         }

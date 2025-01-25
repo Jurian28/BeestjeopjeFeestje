@@ -171,26 +171,34 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             return animalTypes;
         }
 
-        public decimal CalculateDiscount() {
+        public void CalculateDiscount() {
             decimal discount = 0;
             List<int> animalIds = GetSelectedAnimalIds();
+            // discount 1: Meer dan drie animals geboekt
             if(animalIds.Count >= 3) {
                 discount = discount + 10;
             }
+            // discount 2: De dag is maandag of dinsdag
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
                 discount = discount + 15;
             }
-            //mist nog de kaart discount, ik voeg deze toe als de main hierin gemerged is
+            // discount 3: De klant heeft een klanten kaart
+            AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            if (appUser.Card != null) {
+                discount = discount + 10;
+            }
 
             foreach (int animalId in animalIds) {
                 Animal? animal = _context.Animals.FirstOrDefault(a => a.Id == animalId);
                 if (animal != null) {
+                    //discount 4: De eend heeft een 1 op 6 kans voor een discount
                     if (animal.Name == "Eend") {
                         Random random = new Random();
                         if(random.Next(6) == 0) {
                             discount = discount + 50;
                         }
                     }
+                    //discount 5: Een dier bevat letters van het alphabet vanaf a
                     char alphabet = 'a';
                     while (animal.Name.Contains(alphabet) || alphabet == 'z') {
                         alphabet = (char)(((int)alphabet) + 1);
@@ -199,11 +207,12 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 }
             }
 
+            //discount 6: Discount mag niet hoger zijn dan 60
             if(discount > 60) {
                 discount = 60;
             }
 
-            return discount;
+            setHttpContextString("Discount", JsonSerializer.Serialize(discount));
         }
 
         public List<Animal> GetSelectedAnimals() {
