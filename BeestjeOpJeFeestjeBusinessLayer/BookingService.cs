@@ -14,6 +14,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         private readonly UserManager<AppUser> _userManager;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
+        private decimal _discount;
+
         public BookingService(MyContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) {
             _context = context;
             _userManager = userManager;
@@ -212,6 +214,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 discount = 60;
             }
 
+            _discount = discount;
             setHttpContextString("Discount", JsonSerializer.Serialize(discount));
         }
 
@@ -251,6 +254,10 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 BookingDate = currentDate
             };
             return booking;
+        }
+
+        public decimal GetDiscount() {
+            return _discount;
         }
 
         public void SetAppUserId(string userId) {

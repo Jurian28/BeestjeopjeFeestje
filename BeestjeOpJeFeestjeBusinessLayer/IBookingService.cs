@@ -15,6 +15,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         bool ValidateAnimals(out List<string> modelErrors);
         public bool ValidateUserCard(out List<string> modelErrors);
         void CalculateDiscount();
+        decimal GetDiscount();
 
         Task<Booking> GetBooking(bool unloaded = false);
         void SetAppUserId(string userId);
