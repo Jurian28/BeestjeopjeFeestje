@@ -1,42 +1,78 @@
 ﻿@using BeestjeOpJeFeestjeDb.Models
 @model KlantAuthenticateViewModel;
 
-<h2>Vul je gegevens in</h2>
+<div class="container mt-5">
+    <!-- Step Indicator -->
+    <div class="mb-4 text-center">
+        <div class="progress" style="height: 20px;">
+            <div class="progress-bar bg-success"
+                 role="progressbar"
+                 style="width: 75%;"
+                 aria-valuenow="75"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+        </div>
+        <p class="mt-3 fw-bold">Step 3 of 4</p> <!-- Added margin-top for spacing -->
+    </div>
 
-<form asp-action="AddUserInfo" asp-controller="Auth" asp-route-returnUrl="@Url.Action("Authenticate", "Klant")" method="post">
-    <div class="form-group">
-        <label asp-for="RegisterForm.Name" class="control-label"></label>
-        <input asp-for="RegisterForm.Name" class="form-control" />
-        <span asp-validation-for="RegisterForm.Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="RegisterForm.Email" class="control-label"></label>
-        <input asp-for="RegisterForm.Email" class="form-control" />
-        <span asp-validation-for="RegisterForm.Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="RegisterForm.Password" class="control-label"></label>
-        <input asp-for="RegisterForm.Password" class="form-control" type="password" />
-        <span asp-validation-for="RegisterForm.Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="RegisterForm.PasswordRepeat" class="control-label"></label>
-        <input asp-for="RegisterForm.PasswordRepeat" class="form-control" type="password" />
-        <span asp-validation-for="RegisterForm.PasswordRepeat" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Register</button>
-    </div>
-</form>
+    <!-- Centered Header -->
+    <h1 class="text-center mb-4">Authentication</h1> <!-- Added margin-bottom for spacing -->
+    <!-- Register and Log in Side by Side -->
+    <div class="row mb-5">
+        <!-- Added margin-bottom to separate this from other sections -->
+        <!-- Register Form -->
+        <div class="col-12 col-md-6 mb-4">
+            <h3 class="mb-3">Fill in Your Information</h3>
+            <form asp-action="AddUserInfo" asp-controller="Auth" asp-route-returnUrl="@Url.Action("Authenticate", "Klant")" method="post">
+                <div class="form-group mb-3">
+                    <label asp-for="RegisterForm.Name" class="form-label"></label>
+                    <input asp-for="RegisterForm.Name" class="form-control" required />
+                    <span asp-validation-for="RegisterForm.Name" class="text-danger"></span>
+                </div>
 
-<h2>Log in</h2>
-<a href="@Url.Action("Login", "Auth", new { returnUrl = Url.Action("Authenticate", "Klant") })">Log in</a>
+                <div class="form-group mb-3">
+                    <label asp-for="RegisterForm.Address" class="form-label"></label>
+                    <input asp-for="RegisterForm.Address" class="form-control" required />
+                    <span asp-validation-for="RegisterForm.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="RegisterForm.Email" class="form-label"></label>
+                    <input asp-for="RegisterForm.Email" class="form-control" />
+                    <span asp-validation-for="RegisterForm.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="RegisterForm.PhoneNumber" class="form-label"></label>
+                    <input asp-for="RegisterForm.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="RegisterForm.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
+                </div>
+            </form>
+        </div>
 
-<h2>Extra Data</h2>
-<ul>
-    @foreach (Animal animal in Model.Animals)
-    {
-        <li>@animal.Name</li>
-    }
-</ul>
-<p>@Model.Date</p>
+        <!-- Log in Section -->
+        <div class="col-12 col-md-6 mb-4">
+            <h3 class="mb-3">Already Have an Account?</h3>
+            <div class="text-center d-flex flex-column justify-content-center align-items-center h-100">
+                <a href="@Url.Action("Login", "Auth", new { returnUrl = Url.Action("Authenticate", "Klant") })" class="btn btn-outline-primary btn-lg w-100">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Previously Selected Information -->
+    <div class="mb-4 p-3 border rounded">
+        <h4 class="mb-3">Previously Selected</h4> <!-- Added margin-bottom for spacing -->
+        <ul class="list-group mb-3">
+            @foreach (Animal animal in Model.Animals)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @animal.Name
+                    <span class="badge bg-primary">@animal.Type</span>
+                </li>
+            }
+        </ul>
+        <p><strong>Date:</strong> @Model.Date</p>
+    </div>
+</div>

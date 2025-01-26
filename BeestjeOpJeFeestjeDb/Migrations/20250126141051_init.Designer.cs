@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestjeDb.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250126132500_init")]
+    [Migration("20250126141051_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -32,6 +32,11 @@ namespace BeestjeOpJeFeestjeDb.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("address");
 
                     b.Property<string>("Card")
                         .HasColumnType("nvarchar(max)");
@@ -97,15 +102,16 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a673b309-8a7b-4cc7-8928-623fc0a4a046",
+                            Address = "Laan van Meerdervoort 100 2517 AN Den Haag Nederland",
+                            ConcurrencyStamp = "e8c99514-7030-4f92-9852-ed858ce99cc9",
                             Email = "employee@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "JURIAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENr4qUdr3dzd3gF6uuI7UFBQMhCJxZW5AnCxkbTtPap7NB2qL/muSW0A/truB/SL5w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIMvC/yk9x8lmI4osYPmQY9pCT9MKpoEb4WT5+BmgsASWTzhSvKBU1WpM1QKxGJphw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8c92a346-f8d7-42e8-9d9e-79e1da51f836",
+                            SecurityStamp = "0c2cf842-41d6-408d-afb5-6034a5f9736d",
                             TwoFactorEnabled = false,
                             UserName = "jurian"
                         },
@@ -113,15 +119,16 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a098208b-da6d-4f5b-810f-ae9f89e41f06",
+                            Address = "Laan van Meerdervoort 5 2517 AN Den Haag Nederland",
+                            ConcurrencyStamp = "2a2dad6b-4860-4636-bbe2-3c844b292d6c",
                             Email = "employee@examples.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
                             NormalizedUserName = "ETHAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEECTgW4hNgocuEyew3VRQJ2GQFBZpc5Pbm/bpVbzSMM7XxtmVz4Ly0fkusyWtOMFvw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDf2V98aqczJl13zX0WDz+SdbZFPIXnzVqCITfPIVkgPoCD50Fr+vxJ+1Ju5vFSB5g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "55298037-9399-4ada-88e2-50f7272caa58",
+                            SecurityStamp = "9d864012-4c46-4b38-80dd-172bf73f74f4",
                             TwoFactorEnabled = false,
                             UserName = "ethan"
                         });
@@ -309,7 +316,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .HasColumnName("booking_date");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(16, 2)
+                        .HasColumnType("decimal(16,2)")
                         .HasColumnName("discount");
 
                     b.Property<DateOnly>("EventDate")

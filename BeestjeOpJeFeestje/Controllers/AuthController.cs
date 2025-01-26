@@ -30,7 +30,9 @@ namespace Bumbo.Controllers {
             AppUser user = new AppUser() {
                 UserName = registerForm.Name,
                 NormalizedUserName = registerForm.Name.ToUpper(),
+                Address = registerForm.Address,
                 Email = registerForm.Email,
+                NormalizedEmail = registerForm.Email.ToUpper(),
                 PhoneNumber = registerForm.PhoneNumber,
                 Card = registerForm.Card
             };
@@ -51,15 +53,22 @@ namespace Bumbo.Controllers {
                 UserName = registerForm.Name,
                 NormalizedUserName = registerForm.Name.ToUpper(),
                 Email = registerForm.Email,
+                NormalizedEmail = registerForm.Email.ToUpper(),
                 PhoneNumber = registerForm.PhoneNumber,
-                Card = registerForm.Card
+                Address = registerForm.Address,
             };
 
-            var result = await _userManager.CreateAsync(user, registerForm.Password);
+            Random random = new();
+            string _validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=<>?";
+            string password = new string(Enumerable.Range(0, 12)
+                .Select(_ => _validChars[random.Next(_validChars.Length)])
+                .ToArray());
+
+            var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded) {
                 await _signInManager.PasswordSignInAsync(user,
-                       registerForm.Password, true, false);
+                       password, true, false);
 
                 var roleResult = await _userManager.AddToRoleAsync(user, "klant");
                 _context.SaveChanges();

@@ -1,9 +1,31 @@
 ﻿@model DateOnly
 
-<div>
-    <a href="@Url.Action("DecreaseDate", new { date = Model })" class="btn btn-secondary">&#8592;</a>
-    <span>@Model.DayOfWeek @Model</span>
-    <a href="@Url.Action("IncreaseDate", new { date = Model })" class="btn btn-secondary">&#8594;</a>
-</div>
+<div class="container mt-5">
+    <!-- Step Indicator -->
+    <div class="mb-4 text-center">
+        <div class="progress" style="height: 20px;">
+            <div class="progress-bar bg-success"
+                 role="progressbar"
+                 style="width: 25%;"
+                 aria-valuenow="25"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+        </div>
+        <p class="mt-2 fw-bold">Step 1 of 4</p>
+    </div>
 
-<a href="@Url.Action("ConfirmDate", new { date = Model })" class="btn btn-secondary">Continue</a>
+    <!-- Main Content -->
+    <div class="text-center">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <a href="@Url.Action("DecreaseDate", new { date = Model })" class="btn btn-secondary me-3">&#8592;</a>
+            <span class="h4 fw-bold">
+                @Model.DayOfWeek, @Model.ToShortDateString()
+            </span>
+            <a href="@Url.Action("IncreaseDate", new { date = Model })" class="btn btn-secondary ms-3">&#8594;</a>
+        </div>
+        <a href="@Url.Action("ConfirmDate", new { date = Model })" class="btn btn-primary">
+            Continue
+        </a>
+    </div>
+</div>

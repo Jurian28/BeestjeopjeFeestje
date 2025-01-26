@@ -61,6 +61,8 @@ namespace BeestjeOpJeFeestje.Models {
                     .WithOne(b => b.AppUser)
                     .HasForeignKey(e => e.AppUserId)
                     .OnDelete(DeleteBehavior.Restrict);
+                entity.Property(e => e.Address)
+                    .HasColumnName("address");
             });
 
             // Booking entity configuration
@@ -74,7 +76,8 @@ namespace BeestjeOpJeFeestje.Models {
                 entity.Property(e => e.EventDate)
                     .HasColumnName("event_date");
                 entity.Property(e => e.Discount)
-                    .HasColumnName("discount");
+                    .HasColumnName("discount")
+                    .HasPrecision(16, 2);
                 // No need to add foreign key to Animal directly here
             });
 
@@ -91,6 +94,7 @@ namespace BeestjeOpJeFeestje.Models {
                 NormalizedUserName = "JURIAN",
                 Email = "employee@example.com",
                 NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
+                Address = "Laan van Meerdervoort 100 2517 AN Den Haag Nederland"
             };
             var klant = new AppUser {
                 Id = "2",
@@ -98,6 +102,7 @@ namespace BeestjeOpJeFeestje.Models {
                 NormalizedUserName = "ETHAN",
                 Email = "employee@examples.com",
                 NormalizedEmail = "EMPLOYEE@EXAMPLES.COM",
+                Address = "Laan van Meerdervoort 5 2517 AN Den Haag Nederland"
             };
 
 
