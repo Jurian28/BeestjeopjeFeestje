@@ -2,23 +2,22 @@
 @model IEnumerable<Animal>
 
 <h1>Boerderij</h1>
-<div>
-@foreach(Animal animal in Model) {
-    <div class="card" style="width: 18rem">
-        <div class="card-body">
-            <img class="card-img-top" src="@animal.ImageUrl">
-            <div>@animal.Name</div>
-            <div>@animal.Type</div>
-            <div>@animal.Price</div>
-            <a class="btn btn-primary" href="@Url.Action("Edit", "Boerderij", new { id = animal.Id})">Edit</a>
-            <a class="btn btn-primary" href="@Url.Action("Delete", "Boerderij", new { id = animal.Id})">Delete</a>
+<div class="row">
+    @foreach(Animal animal in Model) {
+        <div class="col">
+            <div class="card" style="width: 18rem">
+                <div class="card-body">
+                    <img class="card-img-top" src="@animal.ImageUrl">
+                    <div>@animal.Name</div>
+                    <div>@animal.Type</div>
+                    <div>@animal.Price</div>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", "Boerderij", new { id = animal.Id})">Edit</a>
+                    <a class="btn btn-primary" href="@Url.Action("Delete", "Boerderij", new { id = animal.Id})">Delete</a>
+                </div>
+            </div>
         </div>
-    </div>
-}
-
-<a class="btn btn-primary" href="@Url.Action("Create", "Boerderij")">Create</a>
+    }
 </div>
-
-<p>
-    <a href="/Auth/Register">register</a>
-</p>
+<div class="text-center mt-3">
+    <a class="btn btn-primary" href="@Url.Action("Create", "Boerderij")">Create</a>
+</div>

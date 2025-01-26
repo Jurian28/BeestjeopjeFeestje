@@ -1,9 +1,12 @@
 ﻿using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeDb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Controllers {
+
+    [Authorize(Roles = "boerderij")]
     public class AccountsController : Controller {
 
         private MyContext _context;
