@@ -34,12 +34,12 @@ namespace BeestjeOpJeFeestjeTest {
             bookingAnimal1.Booking = booking;
             bookingAnimals.Add(bookingAnimal1);
             BookingAnimal bookingAnimal2 = new BookingAnimal();
-            bookingAnimal1.Animal = animal2;
-            bookingAnimal1.Booking = booking;
+            bookingAnimal2.Animal = animal2;
+            bookingAnimal2.Booking = booking;
             bookingAnimals.Add(bookingAnimal2);
             BookingAnimal bookingAnimal3 = new BookingAnimal();
-            bookingAnimal1.Animal = animal3;
-            bookingAnimal1.Booking = booking;
+            bookingAnimal3.Animal = animal3;
+            bookingAnimal3.Booking = booking;
             bookingAnimals.Add(bookingAnimal3);
 
             AppUser user = new AppUser();
@@ -90,8 +90,8 @@ namespace BeestjeOpJeFeestjeTest {
             bookingAnimal1.Booking = booking;
             bookingAnimals.Add(bookingAnimal1);
             BookingAnimal bookingAnimal2 = new BookingAnimal();
-            bookingAnimal1.Animal = animal2;
-            bookingAnimal1.Booking = booking;
+            bookingAnimal2.Animal = animal2;
+            bookingAnimal2.Booking = booking;
             bookingAnimals.Add(bookingAnimal2);
 
             AppUser user = new AppUser();
@@ -473,12 +473,12 @@ namespace BeestjeOpJeFeestjeTest {
             bookingAnimal1.Booking = booking;
             bookingAnimals.Add(bookingAnimal1);
             BookingAnimal bookingAnimal2 = new BookingAnimal();
-            bookingAnimal1.Animal = animal2;
-            bookingAnimal1.Booking = booking;
+            bookingAnimal2.Animal = animal2;
+            bookingAnimal2.Booking = booking;
             bookingAnimals.Add(bookingAnimal2);
             BookingAnimal bookingAnimal3 = new BookingAnimal();
-            bookingAnimal1.Animal = animal3;
-            bookingAnimal1.Booking = booking;
+            bookingAnimal3.Animal = animal3;
+            bookingAnimal3.Booking = booking;
             bookingAnimals.Add(bookingAnimal3);
 
             AppUser user = new AppUser();

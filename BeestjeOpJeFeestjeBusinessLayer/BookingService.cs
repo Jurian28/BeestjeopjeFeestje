@@ -18,6 +18,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         private decimal _discount;
         private string _user;
         private List<int> _animalIds;
+        private string _dateString;
 
         public BookingService(MyContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) {
             _context = context;
@@ -51,7 +52,12 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
 
         public DateOnly? GetDate() {
-            string dateString = getHttpContextString("Date");
+            string dateString;
+            if (_userManager == null) {
+                dateString = _dateString;
+                return DateOnly.Parse(dateString);
+            }
+            dateString = getHttpContextString("Date");
             return DateOnly.Parse(dateString);
         }
 
@@ -206,9 +212,15 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void CalculateDiscount() {
             decimal discount = 0;
-            List<int> animalIds = _animalIds;
+            List<int> animalIds;
+            if (_userManager != null) {
+                animalIds = GetSelectedAnimalIds();
+            }
+            else {
+                animalIds = _animalIds;
+            }
             // discount 1: Meer dan drie animals geboekt
-            if(animalIds.Count >= 3) {
+            if (animalIds.Count >= 3) {
                 discount = discount + 10;
             }
             // discount 2: De dag is maandag of dinsdag
@@ -299,6 +311,10 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void SetAppUserId(string userId) {
             setHttpContextString("AppUserId", userId);
+        }
+
+        public void SetDateString(string date) {
+            _dateString = date;
         }
 
         public async Task ConfirmBooking() {
