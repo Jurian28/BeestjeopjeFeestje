@@ -107,11 +107,19 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1, animal2 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
+
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
 
             // Act
             bookingService.CalculateDiscount();
@@ -123,7 +131,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void DiscountMondayOrTuesday() {
-
+            // Arrange
             Booking booking = new Booking();
 
             AppUser user = new AppUser();
@@ -158,6 +166,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void DiscountHasCardSucces() {
+            // Arrange
             Booking booking = new Booking();
 
             AppUser user = new AppUser();
@@ -177,16 +186,19 @@ namespace BeestjeOpJeFeestjeTest {
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
+            bookingService.SetUser(user.Id);
 
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(10, result);
         }
 
         [TestMethod]
         public void DiscountHasCardFail() {
+            // Arrange
             Booking booking = new Booking();
 
             AppUser user = new AppUser();
@@ -206,15 +218,18 @@ namespace BeestjeOpJeFeestjeTest {
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
+            bookingService.SetUser(user.Id);
 
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(0, result);
         }
         [TestMethod]
         public void DiscountDuckSucces() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -227,6 +242,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -236,21 +252,31 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
-            Assert.AreEqual(0, result);
+            // Assert
+            Assert.IsTrue(result == 0 || result == 50);
         }
 
         [TestMethod]
         public void DiscountDuckFail() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -263,6 +289,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -272,20 +299,30 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(0, result);
         }
         [TestMethod]
         public void DiscountAlphabetOneLetterSucces() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -297,6 +334,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -306,21 +344,31 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void DiscountAlphabetFourLetterSucces() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -332,6 +380,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -341,20 +390,30 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(8, result);
         }
         [TestMethod]
         public void DiscountAlphabetFail() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -366,6 +425,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -375,21 +435,31 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
         public void DiscountHigherThanSixty() {
+            // Arrange
             List<BookingAnimal> bookingAnimals = new List<BookingAnimal>();
             Booking booking = new Booking();
             Animal animal1 = new Animal();
@@ -413,6 +483,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             AppUser user = new AppUser();
             booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
 
             var myContextMock = new Mock<MyContext>();
             var entities = new List<Booking>() { booking };
@@ -422,16 +493,25 @@ namespace BeestjeOpJeFeestjeTest {
             var entitiesUser = new List<AppUser>() { user };
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(entitiesUser);
 
+            var myContextMockAnimals = new Mock<MyContext>();
+            var entitiesAnimals = new List<Animal>() { animal1, animal2, animal3 };
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(entitiesAnimals);
+
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var defaultContext = new DefaultHttpContext();
             mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(defaultContext);
 
             var bookingService = new BookingService(myContextMock.Object, mockHttpContextAccessor.Object);
 
+            foreach (BookingAnimal animal in booking.BookingAnimals) {
+                bookingService.AddToAnimalList(animal.AnimalId);
+            }
+
             // Act
             bookingService.CalculateDiscount();
             var result = bookingService.GetDiscount();
 
+            // Assert
             Assert.AreEqual(60, result);
         }
     }

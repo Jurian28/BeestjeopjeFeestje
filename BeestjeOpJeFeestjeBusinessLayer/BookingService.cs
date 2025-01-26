@@ -100,8 +100,13 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public bool ValidateAnimals(out List<string> modelErrors) {
             modelErrors = new List<string>();
+            List<int> animalIds;
 
-            List<int> animalIds = GetSelectedAnimalIds();
+            if (_userManager != null) {
+                animalIds = GetSelectedAnimalIds();
+            } else {
+                animalIds = _animalIds;
+            }
             List<string> animalTypes = GetAnimalTypes(animalIds);
             List<string> animalNames = GetAnimalNames(animalIds);
             DateOnly selectedDate = (DateOnly)GetDate();
@@ -140,10 +145,19 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public bool ValidateUserCard(out List<string> modelErrors) {
             modelErrors = new List<string>();
+            List<int> animalIds;
+            List<string> animalTypes;
+            AppUser appUser;
 
-            List<int> animalIds = GetSelectedAnimalIds();
-            List<string> animalTypes = GetAnimalTypes(animalIds);
-            AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            if (_userManager != null) {
+                animalIds = GetSelectedAnimalIds();
+                appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
+            }
+            else {
+                animalIds = _animalIds;
+                appUser = _context.AppUsers.FirstOrDefault(a => a.Id == _user);
+            }
+            animalTypes = GetAnimalTypes(animalIds);
 
             int maxAnimals = appUser.Card switch {
                 "Geen" => 3, 
@@ -205,7 +219,9 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == _user);
             if (appUser != null) {
                 if(appUser.Card != null) {
-                    discount = discount + 10;
+                    if(appUser.Card != "Geen") {
+                        discount = discount + 10;
+                    }
                 }
             }
 
@@ -220,9 +236,11 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                         }
                     }
                     //discount 5: Een dier bevat letters van het alphabet vanaf a
-                    char alphabet = 'a';
-                    while (animal.Name.Contains(alphabet) || alphabet == 'z') {
-                        alphabet = (char)(((int)alphabet) + 1);
+                    char alphabetSmall = 'a';
+                    char alphabetBig = 'A';
+                    while (animal.Name.Contains(alphabetSmall) || alphabetSmall == 'z' || animal.Name.Contains(alphabetBig) || alphabetSmall == 'Z') {
+                        alphabetSmall = (char)(((int)alphabetSmall) + 1);
+                        alphabetBig = (char)(((int)alphabetBig) + 1);
                         discount = discount + 2;
                     }
                 }
