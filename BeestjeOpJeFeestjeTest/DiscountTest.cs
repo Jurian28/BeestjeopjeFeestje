@@ -72,7 +72,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(10, result);
@@ -123,7 +123,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(0, result);
@@ -153,7 +153,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
@@ -190,7 +190,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(10, result);
@@ -222,7 +222,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(0, result);
@@ -268,7 +268,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.IsTrue(result == 0 || result == 50);
@@ -315,7 +315,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(0, result);
@@ -360,7 +360,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(2, result);
@@ -406,7 +406,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(8, result);
@@ -451,7 +451,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(0, result);
@@ -509,7 +509,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Act
             bookingService.CalculateDiscount();
-            var result = bookingService.GetDiscount();
+            var result = bookingService.GetDiscountForTest();
 
             // Assert
             Assert.AreEqual(60, result);

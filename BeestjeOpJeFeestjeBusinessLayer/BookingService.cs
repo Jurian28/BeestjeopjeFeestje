@@ -294,18 +294,27 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             DateOnly? eventDate = GetDate();
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
             List<BookingAnimal> bookingAnimals = await GetBookingAnimals(unloaded);
+            decimal discount = GetDiscount();
 
             Booking booking = new Booking() {
                 BookingAnimals = bookingAnimals,
                 AppUser = appUser,
                 AppUserId = appUser?.Id,
                 EventDate = (DateOnly)eventDate,
-                BookingDate = currentDate
+                BookingDate = currentDate,
+                Discount = discount
             };
             return booking;
         }
 
         public decimal GetDiscount() {
+            if (decimal.TryParse(getHttpContextString("Discount"), out decimal result)) {
+                return result;
+            }
+            return 0;
+        }
+
+        public decimal GetDiscountForTest() {
             return _discount;
         }
 
