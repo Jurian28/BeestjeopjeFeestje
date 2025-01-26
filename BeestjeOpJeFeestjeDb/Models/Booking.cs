@@ -6,6 +6,7 @@ namespace BeestjeOpJeFeestjeDb.Models {
         public int Id { get; set; }
         public DateOnly BookingDate { get; set; }
         public DateOnly EventDate { get; set; }
+        public decimal Discount { get; set; }
 
         // Foreign key to AppUser
         public string AppUserId { get; set; }

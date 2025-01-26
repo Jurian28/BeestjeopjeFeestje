@@ -73,6 +73,8 @@ namespace BeestjeOpJeFeestje.Models {
                     .HasColumnName("booking_date");
                 entity.Property(e => e.EventDate)
                     .HasColumnName("event_date");
+                entity.Property(e => e.Discount)
+                    .HasColumnName("discount");
                 // No need to add foreign key to Animal directly here
             });
 

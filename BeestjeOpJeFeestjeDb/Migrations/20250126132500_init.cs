@@ -183,6 +183,7 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     booking_date = table.Column<DateOnly>(type: "date", nullable: false),
                     event_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -257,8 +258,8 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Card", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "3ee6efcc-124f-4ca7-9765-d177613a127a", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAEIvsBA/mo2rYRCVoYd5y9AAXRvh8jgqMMcVpKGec+lDUJlfiqcPJyaj5mV6CoChHnQ==", null, false, "6ec6d937-026a-4bfd-8fcb-84f5a5c6e349", false, "jurian" },
-                    { "2", 0, null, "79c7f6f4-b4ba-4e2a-85a4-cb0382a74655", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAEGNnvtHcb5rjey70b5NvxpNFcduwd9TMK+RU525RGKFpKz8PbR//LkIxjPaZA5+cbQ==", null, false, "701ad4a7-2aeb-413a-8f05-71441393455a", false, "ethan" }
+                    { "1", 0, null, "a673b309-8a7b-4cc7-8928-623fc0a4a046", "employee@example.com", false, false, null, "EMPLOYEE@EXAMPLE.COM", "JURIAN", "AQAAAAIAAYagAAAAENr4qUdr3dzd3gF6uuI7UFBQMhCJxZW5AnCxkbTtPap7NB2qL/muSW0A/truB/SL5w==", null, false, "8c92a346-f8d7-42e8-9d9e-79e1da51f836", false, "jurian" },
+                    { "2", 0, null, "a098208b-da6d-4f5b-810f-ae9f89e41f06", "employee@examples.com", false, false, null, "EMPLOYEE@EXAMPLES.COM", "ETHAN", "AQAAAAIAAYagAAAAEECTgW4hNgocuEyew3VRQJ2GQFBZpc5Pbm/bpVbzSMM7XxtmVz4Ly0fkusyWtOMFvw==", null, false, "55298037-9399-4ada-88e2-50f7272caa58", false, "ethan" }
                 });
 
             migrationBuilder.InsertData(
