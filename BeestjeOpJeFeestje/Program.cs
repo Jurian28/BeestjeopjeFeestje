@@ -12,7 +12,7 @@ namespace BeestjeOpJeFeestje {
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<MyContext>(options =>
-                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                 options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyContext>();
@@ -36,6 +36,7 @@ namespace BeestjeOpJeFeestje {
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+
             });
 
             var app = builder.Build();
