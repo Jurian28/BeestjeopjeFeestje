@@ -264,7 +264,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             }
 
             _discount = discount;
-            setHttpContextString("Discount", JsonSerializer.Serialize(discount));
+            setHttpContextString("Discount", discount.ToString());
         }
 
         public List<Animal> GetSelectedAnimals() {

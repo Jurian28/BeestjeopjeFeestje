@@ -140,7 +140,7 @@ namespace BeestjeOpJeFeestje.Controllers {
                 return NotFound();
             }
 
-            //_bookingService.CalculateDiscount();
+            _bookingService.CalculateDiscount();
             Booking booking = await _bookingService.GetBooking();
             return View(booking);
         }
