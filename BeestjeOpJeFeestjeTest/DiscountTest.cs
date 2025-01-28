@@ -75,7 +75,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(10, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(25, result);
+            }
+            else {
+                Assert.AreEqual(10, result);
+            }
         }
 
         [TestMethod]
@@ -126,7 +131,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(0, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(15, result);
+            }
+            else {
+                Assert.AreEqual(0, result);
+            }
         }
 
         [TestMethod]
@@ -193,7 +203,11 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(10, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(25, result);
+            } else {
+                Assert.AreEqual(10, result);
+            }
         }
 
         [TestMethod]
@@ -225,7 +239,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(0, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(15, result);
+            }
+            else {
+                Assert.AreEqual(0, result);
+            }
         }
         [TestMethod]
         public void DiscountDuckSucces() {
@@ -271,7 +290,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.IsTrue(result == 0 || result == 50);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.IsTrue(result == 15 || result == 65);
+            }
+            else {
+                Assert.IsTrue(result == 0 || result == 50);
+            }
         }
 
         [TestMethod]
@@ -318,7 +342,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(0, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(15, result);
+            }
+            else {
+                Assert.AreEqual(0, result);
+            }
         }
         [TestMethod]
         public void DiscountAlphabetOneLetterSucces() {
@@ -363,7 +392,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(2, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(17, result);
+            }
+            else {
+                Assert.AreEqual(2, result);
+            }
         }
 
         [TestMethod]
@@ -409,7 +443,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(8, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(23, result);
+            }
+            else {
+                Assert.AreEqual(8, result);
+            }
         }
         [TestMethod]
         public void DiscountAlphabetFail() {
@@ -454,7 +493,12 @@ namespace BeestjeOpJeFeestjeTest {
             var result = bookingService.GetDiscountForTest();
 
             // Assert
-            Assert.AreEqual(0, result);
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday || DateTime.Now.DayOfWeek == DayOfWeek.Tuesday) {
+                Assert.AreEqual(15, result);
+            }
+            else {
+                Assert.AreEqual(0, result);
+            }
         }
 
         [TestMethod]
