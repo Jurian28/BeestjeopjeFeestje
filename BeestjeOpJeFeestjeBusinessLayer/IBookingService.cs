@@ -24,9 +24,6 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         bool ValidateBookingStep(int bookingStep); 
         void SetBookingStep(int bookingStep);
 
-        void SetUser(string userId);
-        void AddToAnimalList(int animalId);
-
         void ResetBooking();
     }
 }

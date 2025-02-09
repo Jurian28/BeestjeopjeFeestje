@@ -85,7 +85,6 @@ namespace BeestjeOpJeFeestje.Controllers {
                 return NotFound();
             }
 
-            _bookingService.AddToAnimalList(animalId);
             _bookingService.AddOrRemoveAnimalFromBooking(animalId);
             return RedirectToAction("ChooseAnimals");
         }
@@ -121,7 +120,6 @@ namespace BeestjeOpJeFeestje.Controllers {
             }
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _bookingService.SetUser(userId);
             _bookingService.SetAppUserId(userId);
 
             List<string> modelErrors;

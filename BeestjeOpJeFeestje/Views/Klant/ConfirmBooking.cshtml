@@ -23,7 +23,7 @@
     <div class="mb-4 p-3 border rounded">
         <h3 class="mb-3">Booking Information</h3>
         <p><strong>Event Date:</strong> @Model.EventDate.ToString("yyyy-MM-dd")</p>
-        <p><strong>Discount:</strong> @Model.Discount.ToString()</p> 
+        <p><strong>Discount:</strong> @Model.Discount.ToString()%</p>
         <p><strong>Full Price:</strong> @Model.GetFullPrice().ToString("C")</p>
         <p><strong>Price after Discount:</strong> @((Model.GetFullPrice() * (1 - (Model.Discount/100))).ToString("C"))</p>
     </div>

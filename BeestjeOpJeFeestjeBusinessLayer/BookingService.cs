@@ -12,52 +12,26 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
         private readonly MyContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserManager<AppUser>? _userManager;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
-        private decimal _discount;
-        private string _user;
-        private List<int> _animalIds;
-        private string _dateString;
-
-        public BookingService(MyContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) {
-            _context = context;
-            _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
-            _animalIds = new List<int>();
-        }
-
-        //voor unit test
         public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) { 
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-            _animalIds = new List<int>();
         }
 
         private string? getHttpContextString(string key) {
-            if(_userManager == null) {
-                return null;
-            }
             if (!HttpContext.Session.TryGetValue(key, out var output)) {
                 return null;
             }
             return Encoding.UTF8.GetString(output);
         }
         private void setHttpContextString(string key, string value) {
-            if (_userManager == null) {
-                return;
-            }
             HttpContext.Session.Set(key, Encoding.UTF8.GetBytes(value));
         }
 
 
         public DateOnly? GetDate() {
-            string dateString;
-            if (_userManager == null) {
-                dateString = _dateString;
-                return DateOnly.Parse(dateString);
-            }
-            dateString = getHttpContextString("Date");
+            var dateString = getHttpContextString("Date");
             return DateOnly.Parse(dateString);
         }
 
@@ -106,13 +80,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public bool ValidateAnimals(out List<string> modelErrors) {
             modelErrors = new List<string>();
-            List<int> animalIds;
 
-            if (_userManager != null) {
-                animalIds = GetSelectedAnimalIds();
-            } else {
-                animalIds = _animalIds;
-            }
+            List<int> animalIds = GetSelectedAnimalIds();
             List<string> animalTypes = GetAnimalTypes(animalIds);
             List<string> animalNames = GetAnimalNames(animalIds);
             DateOnly selectedDate = (DateOnly)GetDate();
@@ -155,14 +124,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             List<string> animalTypes;
             AppUser appUser;
 
-            if (_userManager != null) {
-                animalIds = GetSelectedAnimalIds();
-                appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
-            }
-            else {
-                animalIds = _animalIds;
-                appUser = _context.AppUsers.FirstOrDefault(a => a.Id == _user);
-            }
+            animalIds = GetSelectedAnimalIds();
+            appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
             animalTypes = GetAnimalTypes(animalIds);
 
             int maxAnimals = appUser.Card switch {
@@ -212,13 +175,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void CalculateDiscount() {
             decimal discount = 0;
-            List<int> animalIds;
-            if (_userManager != null) {
-                animalIds = GetSelectedAnimalIds();
-            }
-            else {
-                animalIds = _animalIds;
-            }
+            List<int> animalIds = GetSelectedAnimalIds();
+
             // discount 1: Meer dan drie animals geboekt
             if (animalIds.Count >= 3) {
                 discount = discount + 10;
@@ -228,7 +186,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 discount = discount + 15;
             }
             // discount 3: De klant heeft een klanten kaart
-            AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == _user);
+            string userId = getHttpContextString("AppUserId");
+            AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == userId);
             if (appUser != null) {
                 if(appUser.Card != null) {
                     if(appUser.Card != "Geen") {
@@ -263,7 +222,6 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                 discount = 60;
             }
 
-            _discount = discount;
             setHttpContextString("Discount", discount.ToString());
         }
 
@@ -314,16 +272,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             return 0;
         }
 
-        public decimal GetDiscountForTest() {
-            return _discount;
-        }
-
         public void SetAppUserId(string userId) {
             setHttpContextString("AppUserId", userId);
-        }
-
-        public void SetDateString(string date) {
-            _dateString = date;
         }
 
         public async Task ConfirmBooking() {
@@ -339,14 +289,6 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public void SetBookingStep(int bookingStep) {
             setHttpContextString("BookingStep", bookingStep.ToString());
-        }
-
-        public void SetUser(string user) {
-            _user = user;
-        }
-
-        public void AddToAnimalList(int id) {
-            _animalIds.Add(id);
         }
 
         public void ResetBooking() {
