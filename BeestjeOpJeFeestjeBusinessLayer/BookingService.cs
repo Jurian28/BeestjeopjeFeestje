@@ -29,7 +29,6 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             HttpContext.Session.Set(key, Encoding.UTF8.GetBytes(value));
         }
 
-
         public DateOnly? GetDate() {
             var dateString = getHttpContextString("Date");
             return DateOnly.Parse(dateString);
@@ -169,7 +168,6 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                     animalTypes.Add(animal.Type);
                 }
             }
-
             return animalTypes;
         }
 

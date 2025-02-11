@@ -1,7 +1,6 @@
 ﻿using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using Moq.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ namespace BeestjeOpJeFeestjeTest {
         [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalSuccess() {
             // Arrange
-            var httpContextAccessor = GetHttpContextAccessorWithSession(); 
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession(); 
             var bookingAnimals = new List<BookingAnimal>();
             var booking = new Booking();
             var animal1 = new Animal { Type = "Boerderij", Id = 1 };
@@ -53,11 +52,10 @@ namespace BeestjeOpJeFeestjeTest {
             Assert.IsTrue(result, "Expected the validation to pass but it failed.");
         }
 
-
         [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalFail() {
             // Arrange
-            var httpContextAccessor = GetHttpContextAccessorWithSession(); 
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession(); 
 
             var bookingAnimals = new List<BookingAnimal>();
             var booking = new Booking();
@@ -106,7 +104,7 @@ namespace BeestjeOpJeFeestjeTest {
         [TestMethod]
         public void NoPinguinInWeekendSucces() {
             // Arrange
-            var httpContextAccessor = GetHttpContextAccessorWithSession();  // Use your method here
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();  // Use your method here
 
             var animal = new Animal { Id = 1, Name = "Pinguïn", Type = "Sneeuw" };
             var user = new AppUser();
@@ -147,7 +145,7 @@ namespace BeestjeOpJeFeestjeTest {
         [TestMethod]
         public void NoPinguinInWeekendFail() {
             // Arrange
-            var httpContextAccessor = GetHttpContextAccessorWithSession();  // Use your method here
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();  // Use your method here
 
             var animal = new Animal { Id = 1, Name = "Pinguïn", Type = "Sneeuw" };
             var user = new AppUser();
@@ -183,7 +181,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void NoDesertAnimalsInOctoberToFebruariSucces() {
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var animal = new Animal { Id = 1, Name = "Slang", Type = "Woestijn" };
             var user = new AppUser();
@@ -216,7 +214,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void NoDesertAnimalsInOctoberToFebruariFail() {
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var animal = new Animal { Id = 1, Name = "Slang", Type = "Woestijn" };
             var user = new AppUser();
@@ -249,7 +247,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void NoSnowAnimalsInJuneToAugustSucces() {
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var animal = new Animal { Id = 1, Name = "Zeehond", Type = "Sneeuw" };
             var user = new AppUser();
@@ -282,7 +280,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         [TestMethod]
         public void NoSnowAnimalsInJuneToAugustFail() {
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var animal = new Animal { Id = 1, Name = "Zeehond", Type = "Sneeuw" };
             var user = new AppUser();
@@ -334,7 +332,7 @@ namespace BeestjeOpJeFeestjeTest {
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
             myContextMock.Setup(c => c.Animals).ReturnsDbSet(animals);
 
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
             var errorList = new List<string>();
@@ -370,7 +368,7 @@ namespace BeestjeOpJeFeestjeTest {
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
             myContextMock.Setup(c => c.Animals).ReturnsDbSet(animals);
 
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
             var errorList = new List<string>();
@@ -410,7 +408,7 @@ namespace BeestjeOpJeFeestjeTest {
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
             myContextMock.Setup(c => c.Animals).ReturnsDbSet(animals);
 
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
             var errorList = new List<string>();
@@ -443,7 +441,7 @@ namespace BeestjeOpJeFeestjeTest {
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
             myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal });
 
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
             var errorList = new List<string>();
@@ -474,7 +472,7 @@ namespace BeestjeOpJeFeestjeTest {
             myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
             myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal });
 
-            var httpContextAccessor = GetHttpContextAccessorWithSession();
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
             var errorList = new List<string>();
@@ -490,28 +488,5 @@ namespace BeestjeOpJeFeestjeTest {
             Assert.AreEqual(false, result);
         }
 
-        private IHttpContextAccessor GetHttpContextAccessorWithSession() {
-            var sessionMock = new Mock<ISession>();
-
-            // Setup GetString to return a stored value (simulating real session behavior)
-            var sessionStorage = new Dictionary<string, byte[]>();
-            sessionMock.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
-                       .Callback<string, byte[]>((key, value) => sessionStorage[key] = value);
-
-            sessionMock.Setup(s => s.TryGetValue(It.IsAny<string>(), out It.Ref<byte[]>.IsAny))
-                       .Returns((string key, out byte[] value) => {
-                           var exists = sessionStorage.TryGetValue(key, out var storedValue);
-                           value = storedValue;
-                           return exists;
-                       });
-
-            var contextMock = new Mock<HttpContext>();
-            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-
-            contextMock.Setup(ctx => ctx.Session).Returns(sessionMock.Object);
-            httpContextAccessorMock.Setup(acc => acc.HttpContext).Returns(contextMock.Object);
-
-            return httpContextAccessorMock.Object;
-        }
     }
 }
