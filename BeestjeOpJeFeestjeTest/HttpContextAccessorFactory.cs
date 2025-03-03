@@ -20,6 +20,8 @@ namespace BeestjeOpJeFeestjeTest {
                            value = storedValue;
                            return exists;
                        });
+            sessionMock.Setup(s => s.Clear())
+                .Callback(() => sessionStorage.Clear());
 
             var contextMock = new Mock<HttpContext>();
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();

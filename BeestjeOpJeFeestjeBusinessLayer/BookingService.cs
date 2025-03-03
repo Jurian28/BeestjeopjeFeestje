@@ -1,12 +1,9 @@
 ﻿using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Http;
-using System.Diagnostics.Metrics;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
-using BeestjeOpJeFeestjeDb;
 
 namespace BeestjeOpJeFeestjeBusinessLayer {
     public class BookingService : IBookingService {
