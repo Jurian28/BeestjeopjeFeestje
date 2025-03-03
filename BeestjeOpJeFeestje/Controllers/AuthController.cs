@@ -1,10 +1,11 @@
 ﻿using BeestjeOpJeFeestje.Models;
+using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 
-namespace Bumbo.Controllers {
+namespace Controllers {
     public class AuthController : Controller {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _signInManager;

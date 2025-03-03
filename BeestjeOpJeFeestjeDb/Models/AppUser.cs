@@ -1,7 +1,7 @@
 ﻿using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace BeestjeOpJeFeestje.Models {
+namespace BeestjeOpJeFeestjeDb.Models {
     public class AppUser : IdentityUser {
         //public string Id {  get; set; }
         public string? Card {  get; set; } // Geen Zilver Goud Platina

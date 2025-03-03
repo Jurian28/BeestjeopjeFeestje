@@ -1,5 +1,4 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeDb.Models;
+﻿using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Text;

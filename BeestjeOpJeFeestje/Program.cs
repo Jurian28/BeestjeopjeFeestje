@@ -1,4 +1,4 @@
-using BeestjeOpJeFeestje.Models;
+using BeestjeOpJeFeestjeDb.Models;
 using BeestjeOpJeFeestjeBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

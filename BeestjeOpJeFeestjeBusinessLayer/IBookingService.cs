@@ -1,5 +1,4 @@
 ﻿
-using BeestjeOpJeFeestje.Models;
 using BeestjeOpJeFeestjeDb.Models;
 
 namespace BeestjeOpJeFeestjeBusinessLayer {

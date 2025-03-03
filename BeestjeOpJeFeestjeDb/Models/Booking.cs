@@ -1,5 +1,5 @@
 ﻿
-using BeestjeOpJeFeestje.Models;
+using BeestjeOpJeFeestjeDb.Models;
 
 namespace BeestjeOpJeFeestjeDb.Models {
     public class Booking {

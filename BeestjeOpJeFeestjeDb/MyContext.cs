@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BeestjeOpJeFeestje.Models {
+namespace BeestjeOpJeFeestjeDb.Models {
     public class MyContext : IdentityDbContext<AppUser> {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
