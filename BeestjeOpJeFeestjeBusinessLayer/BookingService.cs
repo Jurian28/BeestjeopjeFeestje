@@ -27,6 +27,9 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
         public DateOnly? GetDate() {
             var dateString = getHttpContextString("Date");
+            if (dateString == null)
+                return null;
+
             return DateOnly.Parse(dateString);
         }
 
@@ -241,12 +244,16 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             return bookingAnimals;
         }
 
-        public async Task<Booking> GetBooking(bool unloaded = false) {
+        public async Task<Booking?> GetBooking(bool unloaded = false) {
             AppUser appUser = _context.AppUsers.FirstOrDefault(a => a.Id == getHttpContextString("AppUserId"));
             DateOnly? eventDate = GetDate();
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
             List<BookingAnimal> bookingAnimals = await GetBookingAnimals(unloaded);
             decimal discount = GetDiscount();
+
+            if (appUser == null || !eventDate.HasValue || bookingAnimals == null) {
+                return null;
+            }
 
             Booking booking = new Booking() {
                 BookingAnimals = bookingAnimals,

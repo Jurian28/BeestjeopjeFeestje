@@ -9,6 +9,41 @@ namespace BeestjeOpJeFeestjeTest {
     public class ValidationTest {
 
         [TestMethod]
+        public void NoAnimalSelected() {
+            // Arrange
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
+            var bookingAnimals = new List<BookingAnimal>();
+            var booking = new Booking();
+
+            var user = new AppUser();
+            booking.AppUser = user;
+            booking.BookingAnimals = bookingAnimals;
+
+            // Use ONE mock context and set up all DbSets
+            var myContextMock = new Mock<MyContext>();
+            myContextMock.Setup(c => c.Bookings).ReturnsDbSet(new List<Booking> { booking });
+            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
+            myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { });
+
+            var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
+
+            var errorList = new List<string>();
+
+            foreach (var animal in booking.BookingAnimals) {
+                bookingService.AddOrRemoveAnimalFromBooking(animal.AnimalId);
+            }
+
+            DateOnly datenow = DateOnly.FromDateTime(DateTime.Now);
+            bookingService.SetDate(datenow);
+
+            // Act
+            var result = bookingService.ValidateAnimals(out errorList);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+            [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalSuccess() {
             // Arrange
             var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
