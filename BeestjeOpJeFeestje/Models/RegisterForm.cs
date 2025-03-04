@@ -17,6 +17,6 @@ namespace BeestjeOpJeFeestje.Models {
         public string Password { get; set; }
         [StringLength(100)]
         public string PasswordRepeat { get; set; }
-        public string Card {  get; set; }
+        public string Card { get; set; }
     }
 }

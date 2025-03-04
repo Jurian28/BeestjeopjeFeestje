@@ -1,8 +1,5 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeDb.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestjeTest {
     internal class HttpContextAccessorFactory {

@@ -1,7 +1,5 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeDb.Models;
+﻿using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Controllers {
@@ -10,11 +8,11 @@ namespace BeestjeOpJeFeestje.Controllers {
     public class AccountsController : Controller {
 
         private MyContext _context;
-        public AccountsController(MyContext context) { 
+        public AccountsController(MyContext context) {
             _context = context;
         }
         public IActionResult Index() {
-            IEnumerable <AppUser> users = _context.Users;
+            IEnumerable<AppUser> users = _context.Users;
             List<AppUser> usersForView = new List<AppUser>();
             return View(users);
         }

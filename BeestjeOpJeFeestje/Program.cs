@@ -1,5 +1,5 @@
-using BeestjeOpJeFeestjeDb.Models;
 using BeestjeOpJeFeestjeBusinessLayer;
+using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,8 +23,7 @@ namespace BeestjeOpJeFeestje {
             builder.Services.AddDistributedMemoryCache(); // session
             builder.Services.AddSession(); // session
 
-            builder.Services.Configure<IdentityOptions>(options =>
-            {
+            builder.Services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;

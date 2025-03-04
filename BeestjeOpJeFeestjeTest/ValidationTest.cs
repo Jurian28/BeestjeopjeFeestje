@@ -1,5 +1,4 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeBusinessLayer;
+﻿using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
 using Moq;
 using Moq.EntityFrameworkCore;
@@ -12,7 +11,7 @@ namespace BeestjeOpJeFeestjeTest {
         [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalSuccess() {
             // Arrange
-            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession(); 
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
             var bookingAnimals = new List<BookingAnimal>();
             var booking = new Booking();
             var animal1 = new Animal { Type = "Boerderij", Id = 1 };
@@ -55,7 +54,7 @@ namespace BeestjeOpJeFeestjeTest {
         [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalFail() {
             // Arrange
-            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession(); 
+            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
 
             var bookingAnimals = new List<BookingAnimal>();
             var booking = new Booking();

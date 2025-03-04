@@ -10,7 +10,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
-        public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) { 
+        public BookingService(MyContext context, IHttpContextAccessor httpContextAccessor) {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -54,7 +54,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
 
             List<Animal> animals = _context.Animals
                     .Include(a => a.BookingAnimals)
-                        .ThenInclude(ba => ba.Booking) 
+                        .ThenInclude(ba => ba.Booking)
                     .Where(a => a.BookingAnimals.All(ba => ba.Booking.EventDate != date.Value))
                     .ToList();
 
@@ -124,11 +124,11 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             animalTypes = GetAnimalTypes(animalIds);
 
             int maxAnimals = appUser.Card switch {
-                "Geen" => 3, 
+                "Geen" => 3,
                 "Zilver" => 4,
-                "Goud" => int.MaxValue, 
-                "Platina" => int.MaxValue, 
-                _ => 3 
+                "Goud" => int.MaxValue,
+                "Platina" => int.MaxValue,
+                _ => 3
             };
 
             // Regel 5: Controleer of het aantal geselecteerde dieren binnen de limiet valt
@@ -183,8 +183,8 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             string userId = getHttpContextString("AppUserId");
             AppUser? appUser = _context.AppUsers.FirstOrDefault(a => a.Id == userId);
             if (appUser != null) {
-                if(appUser.Card != null) {
-                    if(appUser.Card != "Geen") {
+                if (appUser.Card != null) {
+                    if (appUser.Card != "Geen") {
                         discount = discount + 10;
                     }
                 }
@@ -196,7 +196,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
                     //discount 4: De eend heeft een 1 op 6 kans voor een discount
                     if (animal.Name == "Eend") {
                         Random random = new Random();
-                        if(random.Next(6) == 0) {
+                        if (random.Next(6) == 0) {
                             discount = discount + 50;
                         }
                     }
@@ -212,7 +212,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
             }
 
             //discount 6: Discount mag niet hoger zijn dan 60
-            if(discount > 60) {
+            if (discount > 60) {
                 discount = 60;
             }
 

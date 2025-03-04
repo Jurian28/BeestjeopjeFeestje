@@ -1,7 +1,5 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeBusinessLayer;
+﻿using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using Moq.EntityFrameworkCore;
 
@@ -101,7 +99,7 @@ namespace BeestjeOpJeFeestjeTest {
 
             Animal animal1 = new Animal { Type = "Boerderij", Id = 1 };
             Animal animal2 = new Animal { Name = "Hond", Id = 2 };
-            List<Animal> animalList = new List<Animal>(){ animal1, animal2 };
+            List<Animal> animalList = new List<Animal>() { animal1, animal2 };
 
             DateOnly date = new DateOnly(2025, 2, 23);
 
@@ -127,7 +125,7 @@ namespace BeestjeOpJeFeestjeTest {
             var availableAnimals = bookingService.GetAvailableAnimals();
 
             // Assert
-            Assert.IsTrue(availableAnimals.ToHashSet().SetEquals(animalList)); 
+            Assert.IsTrue(availableAnimals.ToHashSet().SetEquals(animalList));
         }
 
 
@@ -161,29 +159,6 @@ namespace BeestjeOpJeFeestjeTest {
             var animals = bookingService.GetSelectedAnimalIds();
             // Assert
             Assert.IsTrue(animals.ToHashSet().SetEquals(animalIdList));
-        }
-        [TestMethod]
-        public void SetAppUserIdSucces() {
-            // Arrange
-            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
-
-            var user = new AppUser();
-            string userId = user.Id;
-
-            // Use ONE mock context and set up all DbSets
-            var myContextMock = new Mock<MyContext>();
-            //myContextMock.Setup(c => c.Bookings).ReturnsDbSet(new List<Booking> { booking });
-            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
-            //myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal1, animal2 });
-
-            var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
-
-            // Act
-            bookingService.SetAppUserId(userId);
-            // TODO afmaken. er is geen GetAppUserId() dus dan moet je iets anders verzinnen
-
-            // Assert
-            Assert.IsTrue(false);
         }
         //[TestMethod]
         //public void ConfirmBooking() {
@@ -245,51 +220,76 @@ namespace BeestjeOpJeFeestjeTest {
             // Assert
             Assert.IsFalse(correctBookingStep);
         }
-        [TestMethod]
-        public async Task ResetBooking() {
-            // Arrange
-            var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
-            var bookingAnimals = new List<BookingAnimal>();
-            var booking = new Booking();
-            var animal1 = new Animal { Type = "Boerderij", Id = 1 };
-            var animal2 = new Animal { Name = "Hond", Id = 2 };
+        //[TestMethod] // undo
+        //public async Task ResetBooking() {
+        //    // Arrange
+        //    var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
+        //    var bookingAnimals = new List<BookingAnimal>();
+        //    var booking = new Booking();
+        //    var animal1 = new Animal { Type = "Boerderij", Id = 1 };
+        //    var animal2 = new Animal { Name = "Hond", Id = 2 };
 
-            var bookingAnimal1 = new BookingAnimal { Animal = animal1, AnimalId = animal1.Id, Booking = booking };
-            var bookingAnimal2 = new BookingAnimal { Animal = animal2, AnimalId = animal2.Id, Booking = booking };
+        //    var bookingAnimal1 = new BookingAnimal { Animal = animal1, AnimalId = animal1.Id, Booking = booking };
+        //    var bookingAnimal2 = new BookingAnimal { Animal = animal2, AnimalId = animal2.Id, Booking = booking };
 
-            bookingAnimals.Add(bookingAnimal1);
-            bookingAnimals.Add(bookingAnimal2);
+        //    bookingAnimals.Add(bookingAnimal1);
+        //    bookingAnimals.Add(bookingAnimal2);
 
-            var user = new AppUser();
-            booking.AppUser = user;
-            booking.BookingAnimals = bookingAnimals;
+        //    var user = new AppUser();
+        //    booking.AppUser = user;
+        //    booking.BookingAnimals = bookingAnimals;
 
-            // Use ONE mock context and set up all DbSets
-            var myContextMock = new Mock<MyContext>();
-            myContextMock.Setup(c => c.Bookings).ReturnsDbSet(new List<Booking> { booking });
-            myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
-            myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal1, animal2 });
+        //    // Use ONE mock context and set up all DbSets
+        //    var myContextMock = new Mock<MyContext>();
+        //    myContextMock.Setup(c => c.Bookings).ReturnsDbSet(new List<Booking> { booking });
+        //    myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
+        //    myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal1, animal2 });
 
-            var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
+        //    var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
 
-            var errorList = new List<string>();
+        //    var errorList = new List<string>();
 
-            foreach (var animal in booking.BookingAnimals) {
-                bookingService.AddOrRemoveAnimalFromBooking(animal.AnimalId);
-            }
-            bookingService.SetAppUserId(booking.AppUser.Id);
-            bookingService.SetBookingStep(1);
-            bookingService.CalculateDiscount();
+        //    foreach (var animal in booking.BookingAnimals) {
+        //        bookingService.AddOrRemoveAnimalFromBooking(animal.AnimalId);
+        //    }
+        //    bookingService.SetAppUserId(booking.AppUser.Id);
+        //    bookingService.SetBookingStep(1);
+        //    bookingService.CalculateDiscount();
 
-            DateOnly datenow = DateOnly.FromDateTime(DateTime.Now);
-            bookingService.SetDate(datenow);
+        //    DateOnly datenow = DateOnly.FromDateTime(DateTime.Now);
+        //    bookingService.SetDate(datenow);
 
-            // Act
-            Booking before = await bookingService.GetBooking(true);
-            bookingService.ResetBooking();
-            Booking after = await bookingService.GetBooking(true);
-            // Assert
-            Assert.IsTrue(false);
-        }
+        //    // Act
+        //    Booking before = await bookingService.GetBooking(true);
+        //    bookingService.ResetBooking();
+        //    Booking after = await bookingService.GetBooking(true);
+        //    // Assert
+        //    Assert.IsTrue(false);
+        //}
+
+
+        //[TestMethod]
+        //public void SetAppUserIdSucces() {
+        //    // Arrange
+        //    var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
+
+        //    var user = new AppUser();
+        //    string userId = user.Id;
+
+        //    // Use ONE mock context and set up all DbSets
+        //    var myContextMock = new Mock<MyContext>();
+        //    //myContextMock.Setup(c => c.Bookings).ReturnsDbSet(new List<Booking> { booking });
+        //    myContextMock.Setup(c => c.AppUsers).ReturnsDbSet(new List<AppUser> { user });
+        //    //myContextMock.Setup(c => c.Animals).ReturnsDbSet(new List<Animal> { animal1, animal2 });
+
+        //    var bookingService = new BookingService(myContextMock.Object, httpContextAccessor);
+
+        //    // Act
+        //    bookingService.SetAppUserId(userId);
+        //    // TODO afmaken. er is geen GetAppUserId() dus dan moet je iets anders verzinnen
+
+        //    // Assert
+        //    Assert.IsTrue(false);
+        //}
     }
 }

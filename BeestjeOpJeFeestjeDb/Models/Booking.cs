@@ -1,7 +1,4 @@
-﻿
-using BeestjeOpJeFeestjeDb.Models;
-
-namespace BeestjeOpJeFeestjeDb.Models {
+﻿namespace BeestjeOpJeFeestjeDb.Models {
     public class Booking {
         public int Id { get; set; }
         public DateOnly BookingDate { get; set; }

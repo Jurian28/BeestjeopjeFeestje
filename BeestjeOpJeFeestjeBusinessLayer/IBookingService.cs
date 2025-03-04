@@ -20,7 +20,7 @@ namespace BeestjeOpJeFeestjeBusinessLayer {
         Task<Booking> GetBooking(bool unloaded = false);
         void SetAppUserId(string userId);
         Task ConfirmBooking();
-        bool ValidateBookingStep(int bookingStep); 
+        bool ValidateBookingStep(int bookingStep);
         void SetBookingStep(int bookingStep);
 
         void ResetBooking();

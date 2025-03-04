@@ -1,7 +1,5 @@
-﻿using BeestjeOpJeFeestje.Models;
-using BeestjeOpJeFeestjeBusinessLayer;
+﻿using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using Moq.EntityFrameworkCore;
 
