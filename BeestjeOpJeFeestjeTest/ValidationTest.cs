@@ -1,5 +1,8 @@
-﻿using BeestjeOpJeFeestjeBusinessLayer;
+﻿using BeestjeOpJeFeestje.Controllers;
+using BeestjeOpJeFeestjeBusinessLayer;
 using BeestjeOpJeFeestjeDb.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
 
@@ -520,6 +523,38 @@ namespace BeestjeOpJeFeestjeTest {
 
             // Assert
             Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void Index_ShouldReturn_ViewResult_WithUsers() {
+            // Arrange
+            var user = new AppUser { Card = "Goud" };
+
+            var users = new List<AppUser> { user }.AsQueryable();
+
+            var mockUserSet = new Mock<DbSet<AppUser>>();
+            mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.Provider).Returns(users.Provider);
+            mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.Expression).Returns(users.Expression);
+            mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.ElementType).Returns(users.ElementType);
+            mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator());
+
+            var myContextMock = new Mock<MyContext>();
+            myContextMock.Setup(c => c.Users).Returns(mockUserSet.Object); // FIX: Ensure this matches the controller
+
+            var controller = new AccountsController(myContextMock.Object);
+
+            // Act
+            var result = controller.Index();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+
+            var viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            var model = viewResult.Model as IEnumerable<AppUser>;
+            Assert.IsNotNull(model);
+            Assert.AreEqual(1, model.Count());
         }
 
     }
