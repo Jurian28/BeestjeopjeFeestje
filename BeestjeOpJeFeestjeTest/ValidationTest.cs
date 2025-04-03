@@ -539,7 +539,7 @@ namespace BeestjeOpJeFeestjeTest {
             mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator());
 
             var myContextMock = new Mock<MyContext>();
-            myContextMock.Setup(c => c.Users).Returns(mockUserSet.Object); // FIX: Ensure this matches the controller
+            myContextMock.Setup(c => c.Users).Returns(mockUserSet.Object); 
 
             var controller = new AccountsController(myContextMock.Object);
 
