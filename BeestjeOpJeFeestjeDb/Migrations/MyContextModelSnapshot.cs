@@ -131,40 +131,40 @@ namespace BeestjeOpJeFeestjeDb.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", b =>
+            modelBuilder.Entity("BeestjeOpJeFeestjeDb.Models.Animal", a =>
                 {
-                    b.Property<int>("Id")
+                    a.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("animal_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(a.Property<int>("Id"));
 
-                    b.Property<string>("ImageUrl")
+                    a.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("imageUrl");
 
-                    b.Property<string>("Name")
+                    a.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
-                    b.Property<decimal>("Price")
+                    a.Property<decimal>("Price")
                         .HasPrecision(16, 2)
                         .HasColumnType("decimal(16,2)")
                         .HasColumnName("price");
 
-                    b.Property<string>("Type")
+                    a.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    a.HasKey("Id");
 
-                    b.ToTable("Animal", (string)null);
+                    a.ToTable("Animal", (string)null);
 
-                    b.HasData(
+                    a.HasData(
                         new
                         {
                             Id = 1,
