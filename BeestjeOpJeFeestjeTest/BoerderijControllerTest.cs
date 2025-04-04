@@ -2,8 +2,6 @@
 using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestjeTest {
     [TestClass]
@@ -12,7 +10,7 @@ namespace BeestjeOpJeFeestjeTest {
 
         public BoerderijControllerTest() {
             _contextOptions = new DbContextOptionsBuilder<MyContext>()
-                .UseInMemoryDatabase("BeestjeOpJeFeestjeTestDb") 
+                .UseInMemoryDatabase("BeestjeOpJeFeestjeTestDb")
                 .Options;
         }
 
@@ -38,14 +36,14 @@ namespace BeestjeOpJeFeestjeTest {
                 var result = controller.Index();
 
                 // Assert
-                Assert.IsInstanceOfType(result, typeof(ViewResult)); 
+                Assert.IsInstanceOfType(result, typeof(ViewResult));
                 var viewResult = result as ViewResult;
                 Assert.IsNotNull(viewResult);
 
                 var model = viewResult.Model as IEnumerable<Animal>;
                 var modelList = model.ToList();
                 Assert.IsNotNull(model);
-                Assert.AreEqual(2, model.Count()); 
+                Assert.AreEqual(2, model.Count());
                 Assert.AreEqual("Lion", model.First().Name);
             }
         }
@@ -60,15 +58,15 @@ namespace BeestjeOpJeFeestjeTest {
                 var result = controller.Create();
 
                 // Assert
-                Assert.IsInstanceOfType(result, typeof(ViewResult)); 
+                Assert.IsInstanceOfType(result, typeof(ViewResult));
                 var viewResult = result as ViewResult;
                 Assert.IsNotNull(viewResult);
 
                 var model = viewResult.Model as Animal;
-                Assert.IsNotNull(model); 
-                Assert.AreEqual("", model.Type); 
-                Assert.AreEqual(0, model.Price); 
-                Assert.AreEqual("", model.ImageUrl); 
+                Assert.IsNotNull(model);
+                Assert.AreEqual("", model.Type);
+                Assert.AreEqual(0, model.Price);
+                Assert.AreEqual("", model.ImageUrl);
             }
         }
 
@@ -79,14 +77,14 @@ namespace BeestjeOpJeFeestjeTest {
                 var controller = new BoerderijController(context);
 
                 var newAnimal = new Animal {
-                    Name = "Tiger" 
+                    Name = "Tiger"
                 };
 
                 // Act
                 var result = controller.Create(newAnimal);
 
                 // Assert
-                Assert.IsInstanceOfType(result, typeof(RedirectToActionResult)); 
+                Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
                 var redirectResult = result as RedirectToActionResult;
                 Assert.AreEqual("Index", redirectResult.ActionName);
 
@@ -102,7 +100,7 @@ namespace BeestjeOpJeFeestjeTest {
             // Arrange
             using (var context = GetContext()) {
                 var animal = new Animal {
-                    Name = "Elephant" 
+                    Name = "Elephant"
                 };
 
                 context.Animals.Add(animal);
@@ -114,13 +112,13 @@ namespace BeestjeOpJeFeestjeTest {
                 var result = controller.Edit(animal.Id);
 
                 // Assert
-                Assert.IsInstanceOfType(result, typeof(ViewResult)); 
+                Assert.IsInstanceOfType(result, typeof(ViewResult));
                 var viewResult = result as ViewResult;
                 Assert.IsNotNull(viewResult);
 
                 var model = viewResult.Model as Animal;
-                Assert.IsNotNull(model); 
-                Assert.AreEqual("Elephant", model.Name); 
+                Assert.IsNotNull(model);
+                Assert.AreEqual("Elephant", model.Name);
             }
         }
 
@@ -130,7 +128,7 @@ namespace BeestjeOpJeFeestjeTest {
             // Arrange
             using (var context = GetContext()) {
                 var animal = new Animal {
-                    Name = "Elephant" 
+                    Name = "Elephant"
                 };
 
                 context.Animals.Add(animal);
@@ -144,7 +142,7 @@ namespace BeestjeOpJeFeestjeTest {
                 var result = controller.Edit(animal);
 
                 // Assert
-                Assert.IsInstanceOfType(result, typeof(RedirectToActionResult)); 
+                Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
                 var redirectResult = result as RedirectToActionResult;
                 Assert.AreEqual("Index", redirectResult.ActionName);
 
@@ -160,7 +158,7 @@ namespace BeestjeOpJeFeestjeTest {
             // Arrange
             using (var context = GetContext()) {
                 var animal = new Animal {
-                    Name = "Lion" 
+                    Name = "Lion"
                 };
 
                 context.Animals.Add(animal);
@@ -175,7 +173,7 @@ namespace BeestjeOpJeFeestjeTest {
                 Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
 
                 var deletedAnimal = context.Animals.FirstOrDefault(a => a.Name == "Lion");
-                Assert.IsNull(deletedAnimal); 
+                Assert.IsNull(deletedAnimal);
             }
         }
     }

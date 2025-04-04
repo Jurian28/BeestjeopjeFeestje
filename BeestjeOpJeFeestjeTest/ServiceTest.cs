@@ -2,7 +2,6 @@
 using BeestjeOpJeFeestjeDb.Models;
 using Moq;
 using Moq.EntityFrameworkCore;
-using System.Text;
 
 namespace BeestjeOpJeFeestjeTest {
     [TestClass]

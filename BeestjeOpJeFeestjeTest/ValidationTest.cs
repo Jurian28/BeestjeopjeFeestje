@@ -46,7 +46,7 @@ namespace BeestjeOpJeFeestjeTest {
             Assert.IsFalse(result);
         }
 
-            [TestMethod]
+        [TestMethod]
         public void NoLionOrPolarbearWithFarmAnimalSuccess() {
             // Arrange
             var httpContextAccessor = HttpContextAccessorFactory.GetHttpContextAccessorWithSession();
@@ -539,7 +539,7 @@ namespace BeestjeOpJeFeestjeTest {
             mockUserSet.As<IQueryable<AppUser>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator());
 
             var myContextMock = new Mock<MyContext>();
-            myContextMock.Setup(c => c.Users).Returns(mockUserSet.Object); 
+            myContextMock.Setup(c => c.Users).Returns(mockUserSet.Object);
 
             var controller = new AccountsController(myContextMock.Object);
 
