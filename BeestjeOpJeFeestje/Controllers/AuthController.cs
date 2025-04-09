@@ -123,11 +123,6 @@ namespace Controllers {
         public async Task<IActionResult> Logout() {
             await _signInManager.SignOutAsync();
 
-            string returnUrl = Request.Headers["Referer"].ToString(); // go back to where the user came from
-            if (!string.IsNullOrEmpty(returnUrl)) {
-                return Redirect(returnUrl);
-            }
-
             return RedirectToAction("Index", "Klant");
         }
     }

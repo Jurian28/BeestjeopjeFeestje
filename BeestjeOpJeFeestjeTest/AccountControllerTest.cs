@@ -2,14 +2,8 @@
 using BeestjeOpJeFeestjeDb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BeestjeOpJeFeestjeTest
-{
+namespace BeestjeOpJeFeestjeTest {
     [TestClass]
     public class AccountControllerTest {
         private DbContextOptions<MyContext> _contextOptions;
@@ -56,8 +50,8 @@ namespace BeestjeOpJeFeestjeTest
         [TestMethod]
         public void SetCard_Silver_To_Gold() {
             using (var context = GetContext()) {
-                var user1 = new AppUser { UserName = "Ethan", Id="1", Address = "Den Bosch" };
-                var user2 = new AppUser { UserName = "Jurian", Id="2", Address = "Den Bosch", Card = "Zilver" };
+                var user1 = new AppUser { UserName = "Ethan", Id = "1", Address = "Den Bosch" };
+                var user2 = new AppUser { UserName = "Jurian", Id = "2", Address = "Den Bosch", Card = "Zilver" };
 
                 context.AppUsers.Add(user1);
                 context.AppUsers.Add(user2);
